@@ -1,16 +1,17 @@
 import { HttpError } from "../errors/http-error";
 import { HttpStatusCodes } from "../errors/http-status-codes";
-import { CategoryCreateModel, CategoryModel } from "../models/category.model";
+import { ProductCreateModel, ProductModel } from "../models/product.model";
 import prismaRepository from "../repositories";
+import { CategoryrService } from "./category.service";
 import { UserService } from "./user.service";
 
 
-export class CategoryrService{
+export class ProductService{
 
     private repository;
 
     constructor(){
-        this.repository = prismaRepository.category;
+        this.repository = prismaRepository.product;
     }
 
     async listAll(){
@@ -18,15 +19,16 @@ export class CategoryrService{
         return result;
     }
 
-    private  async validate(data:Partial<CategoryCreateModel>, isUpdate:boolean = false){
-        const requiredFields: Array<keyof CategoryCreateModel> = !isUpdate ? ["title", "ownerId", "description"] : ["ownerId"];
-        
+    private  async validate(data:Partial<ProductCreateModel>, isUpdate:boolean = false){
+        const requiredFields: Array<keyof ProductCreateModel> = !isUpdate ? ["title", "ownerId", "categoryId", "price", "description"] : ["ownerId"];
+
         for(const field of requiredFields){
             if(!data[field]){
                 throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, `Field ${field} is mandatory!`);
             }
         }
 
+        //Check OwnerId
         if(data.ownerId){
             if(data.ownerId.length !== 24){
                 throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Owner ID Inválido!");
@@ -38,10 +40,23 @@ export class CategoryrService{
                     
             }
         }
+
+        //Check CategoryId
+        if(data.categoryId && data.ownerId){
+            if(data.categoryId.length !== 24){
+                throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid Category ID!");
+            }else{
+                const checkUser = await new CategoryrService().isExists(data.categoryId, data.ownerId);
+                if(!checkUser){
+                   throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Category ID Not Found!");
+                } 
+                    
+            }
+        }
     }
 
 
-    private async findById(id:string):Promise<CategoryModel | null>{
+    private async findById(id:string):Promise<ProductModel | null>{
         const result = await this.repository.findFirst({
             where:{
                 id
@@ -49,26 +64,16 @@ export class CategoryrService{
         })
         return result;
     }
-    
-    public async isExists(id:string, ownerId: string):Promise<Boolean>{
-        const result = await this.repository.findFirst({
-            where:{
-                AND:[
-                    {id},
-                    {ownerId}
-                ]
-            }
-        })
-        return result ? true : false;
-    }
 
-    async create(data:CategoryCreateModel){
+    async create(data:ProductCreateModel){
         await this.validate(data);
 
         const result = await this.repository.create({
             data:{
                 title:       data.title,
                 ownerId:     data.ownerId,
+                categoryId:  data.categoryId,
+                price:       data.price,
                 description: data.description
             }
         })
@@ -77,12 +82,12 @@ export class CategoryrService{
     }
 
 
-    async update(id:string, data: Partial<CategoryCreateModel>){
-        await this.validate(data);
+    async update(id:string, data: Partial<ProductCreateModel>){
+        await this.validate(data, true);
 
-        const dataToUpdate: Partial<CategoryCreateModel> = {};
+        const dataToUpdate: Partial<ProductCreateModel> = {};
 
-        const keys = Object.keys(data) as Array<keyof CategoryCreateModel>;
+        const keys = Object.keys(data) as Array<keyof ProductCreateModel>;
 
         //Data update
         for(const key of keys ){

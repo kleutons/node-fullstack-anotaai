@@ -5,4 +5,6 @@ export enum ROUTERS{
     USERS           = URL_PREFIX+'/users',
     CATEGORY        = URL_PREFIX+'/category',
     CATEGORIES      = URL_PREFIX+'/categories',
+    PRODUCT         = URL_PREFIX+'/product',
+    PRODUCTS        = URL_PREFIX+'/products'
 }
