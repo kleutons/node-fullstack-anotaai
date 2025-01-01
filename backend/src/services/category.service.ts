@@ -2,6 +2,7 @@ import { HttpError } from "../errors/http-error";
 import { HttpStatusCodes } from "../errors/http-status-codes";
 import { CategoryCreateModel, CategoryModel } from "../models/category.model";
 import prismaRepository from "../repositories";
+import isValidId from "../utils/valid.id";
 import { UserService } from "./user.service";
 
 
@@ -11,11 +12,6 @@ export class CategoryrService{
 
     constructor(){
         this.repository = prismaRepository.category;
-    }
-
-    async listAll(){
-        const result = await this.repository.findMany();
-        return result;
     }
 
     private  async validate(data:Partial<CategoryCreateModel>, isUpdate:boolean = false){
@@ -28,7 +24,7 @@ export class CategoryrService{
         }
 
         if(data.ownerId){
-            if(data.ownerId.length !== 24){
+            if(!isValidId(data.ownerId)){
                 throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Owner ID Inválido!");
             }else{
                 const checkUser = await new UserService().userExists(data.ownerId);
@@ -38,6 +34,23 @@ export class CategoryrService{
                     
             }
         }
+    }
+
+    async listAll(){
+        const result = await this.repository.findMany();
+        return result;
+    }
+
+    async listByOwnerId(ownerId:string){
+            if(!isValidId(ownerId)){
+                throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid ID!");
+            }
+            const result = await this.repository.findMany({
+                where:{
+                    ownerId
+                }
+            });
+            return result;
     }
 
 

@@ -20,6 +20,18 @@ export class ProductController{
         }
     }
 
+    public async listByOwnerId(req:Request, res:Response){
+        const { ownerId } = req.params;
+        try{
+            const result = await this.service.listByOwnerId(ownerId);
+            res.status(200).json(result);    
+        }catch(err){
+            if(err instanceof HttpError)
+                return res.status(err.statusCode).json({error: err.message})
+            res.status(500).json({error:'Failed to list' }) 
+        }
+    }
+
     public async create(req:Request, res:Response){
         const user = req.body as ProductCreateModel;
 

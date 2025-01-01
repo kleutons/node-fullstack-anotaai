@@ -8,6 +8,10 @@ routesProduct.get(ROUTERS.PRODUCTS, async (req:Request, res:Response) => {
     new ProductController().listAll(req,res);
 });
 
+routesProduct.get(ROUTERS.PRODUCTS+"/:ownerId", async (req:Request, res:Response) => {
+    new ProductController().listByOwnerId(req,res);
+});
+
 routesProduct.post(ROUTERS.PRODUCT, async (req:Request, res:Response) => {
     new ProductController().create(req,res);
 });

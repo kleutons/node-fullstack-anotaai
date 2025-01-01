@@ -2,6 +2,7 @@ import { HttpError } from "../errors/http-error";
 import { HttpStatusCodes } from "../errors/http-status-codes";
 import { ProductCreateModel, ProductModel } from "../models/product.model";
 import prismaRepository from "../repositories";
+import isValidId from "../utils/valid.id";
 import { CategoryrService } from "./category.service";
 import { UserService } from "./user.service";
 
@@ -12,11 +13,6 @@ export class ProductService{
 
     constructor(){
         this.repository = prismaRepository.product;
-    }
-
-    async listAll(){
-        const result = await this.repository.findMany();
-        return result;
     }
 
     private  async validate(data:Partial<ProductCreateModel>, isUpdate:boolean = false){
@@ -30,31 +26,47 @@ export class ProductService{
 
         //Check OwnerId
         if(data.ownerId){
-            if(data.ownerId.length !== 24){
+            if(!isValidId(data.ownerId)){
                 throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Owner ID Inválido!");
             }else{
                 const checkUser = await new UserService().userExists(data.ownerId);
                 if(!checkUser){
                    throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Owner ID Not Found!");
                 } 
-                    
             }
         }
 
         //Check CategoryId
         if(data.categoryId && data.ownerId){
-            if(data.categoryId.length !== 24){
+            if(!isValidId(data.categoryId)){
                 throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid Category ID!");
             }else{
                 const checkUser = await new CategoryrService().isExists(data.categoryId, data.ownerId);
                 if(!checkUser){
                    throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Category ID Not Found!");
                 } 
-                    
             }
         }
     }
 
+    async listAll(){
+        const result = await this.repository.findMany();
+        return result;
+    }
+
+    async listByOwnerId(ownerId:string){
+        
+        if(!isValidId(ownerId)){
+            throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid ID!");
+        }
+
+        const result = await this.repository.findMany({
+            where:{
+                ownerId
+            }
+        });
+        return result;
+    }
 
     private async findById(id:string):Promise<ProductModel | null>{
         const result = await this.repository.findFirst({
