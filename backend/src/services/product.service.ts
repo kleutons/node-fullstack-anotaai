@@ -81,13 +81,7 @@ export class ProductService{
         await this.validate(data);
 
         const result = await this.repository.create({
-            data:{
-                title:       data.title,
-                ownerId:     data.ownerId,
-                categoryId:  data.categoryId,
-                price:       data.price,
-                description: data.description
-            }
+            data: data
         })
 
         return result;

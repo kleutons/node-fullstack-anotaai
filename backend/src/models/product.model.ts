@@ -5,6 +5,7 @@ export interface ProductModel{
     categoryId    :string,
     price         :number
     description   :string,
+    imgUrl?       :string | null//opcional
 }
 
 export interface ProductCreateModel{
@@ -13,4 +14,5 @@ export interface ProductCreateModel{
     categoryId    :string,
     price         :number
     description   :string,
+    imgUrl?       :string | null //opcional
 }
