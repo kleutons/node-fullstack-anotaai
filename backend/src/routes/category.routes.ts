@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { ROUTERS } from "./routeDefinition";
+import { ROUTERS } from "./definition.routes";
 import { CategoryController } from "../controllers/category.controller";
 
 const  routesCategory = Router();
