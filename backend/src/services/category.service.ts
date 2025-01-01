@@ -49,6 +49,15 @@ export class CategoryrService{
         })
         return result;
     }
+    
+    public async isExists(id:string):Promise<Boolean>{
+        const result = await this.repository.findFirst({
+            where:{
+                id
+            }
+        })
+        return result ? true : false;
+    }
 
     async create(data:CategoryCreateModel){
         await this.validate(data);
