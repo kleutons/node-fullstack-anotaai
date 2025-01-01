@@ -74,6 +74,15 @@ export class UserService{
         return result;
     }
 
+    public async userExists(id:string):Promise<Boolean>{
+        const result = await this.repository.findFirst({
+            where:{
+                id
+            }
+        })
+        return result ? true : false;
+    }
+
     async create(user:UserCreateModel){
         await this.validateUser(user);
         const hashPassword =  await this.validateAndEncryptPassword(user.password);
