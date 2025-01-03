@@ -1,22 +1,22 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response, Router } from "express";
 import { ROUTERS } from "./definition.routes";
 import { UserController } from "../controllers/user.controller";
 
 const  routesUser = Router();
 
-routesUser.get(ROUTERS.USERS, async (req:Request, res:Response, next: NextFunction) => {
+routesUser.get(ROUTERS.USER, async (req:Request, res:Response) => {
     new UserController().listAll(req,res);
 });
 
-routesUser.post(ROUTERS.USER, async (req:Request, res:Response, next: NextFunction) => {
+routesUser.post(ROUTERS.USER, async (req:Request, res:Response) => {
     new UserController().create(req,res);
 });
 
-routesUser.put(ROUTERS.USER+"/:id", async (req:Request, res:Response, next: NextFunction) => {
+routesUser.put(ROUTERS.USER+"/:id", async (req:Request, res:Response) => {
     new UserController().update(req,res);
 });
 
-routesUser.delete(ROUTERS.USER+"/:id", async (req:Request, res:Response, next: NextFunction) => {
+routesUser.delete(ROUTERS.USER+"/:id", async (req:Request, res:Response) => {
     new UserController().delete(req,res);
 });
 
