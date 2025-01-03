@@ -4,11 +4,11 @@ import { ProductController } from "../controllers/product.controller";
 
 const  routesProduct = Router();
 
-routesProduct.get(ROUTERS.PRODUCTS, async (req:Request, res:Response) => {
+routesProduct.get(ROUTERS.PRODUCT, async (req:Request, res:Response) => {
     new ProductController().listAll(req,res);
 });
 
-routesProduct.get(ROUTERS.PRODUCTS+"/:ownerId", async (req:Request, res:Response) => {
+routesProduct.get(ROUTERS.PRODUCT+"/:ownerId", async (req:Request, res:Response) => {
     new ProductController().listByOwnerId(req,res);
 });
 

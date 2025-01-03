@@ -4,7 +4,7 @@ import { CategoryController } from "../controllers/category.controller";
 
 const  routesCategory = Router();
 
-routesCategory.get(ROUTERS.CATEGORIES, async (req:Request, res:Response, next: NextFunction) => {
+routesCategory.get(ROUTERS.CATEGORY, async (req:Request, res:Response, next: NextFunction) => {
     new CategoryController().listAll(req,res);
 });
 
