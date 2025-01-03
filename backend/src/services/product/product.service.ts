@@ -4,15 +4,18 @@ import { ProductCreateModel, ProductModel } from "../../models/product.model";
 import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
 import { CategoryrService } from "../category/category.service";
+import { ProductCacheService } from "./product.cache.service";
 import { UserService } from ".././user.service";
 
 
 export class ProductService{
 
     private repository;
+    private cache;
 
     constructor(){
         this.repository = prismaRepository.product;
+        this.cache = new ProductCacheService();
     }
 
     private  async validate(data:Partial<ProductCreateModel>, isUpdate:boolean = false){
@@ -84,6 +87,8 @@ export class ProductService{
             data: data
         })
 
+        //UPDATE CACHE
+        setImmediate(() => this.cache.addOrUpdate(result));
         return result;
     }
 
@@ -110,6 +115,8 @@ export class ProductService{
             
         })
 
+        //UPDATE CACHE
+        setImmediate(() => this.cache.addOrUpdate(result));
         return result;
     }
 
@@ -124,6 +131,8 @@ export class ProductService{
             }
         })
 
+        //UPDATE CACHE
+        setImmediate(() => this.cache.delete(id));
         return { message: "Successfully Deleted!"}
     }
 }
