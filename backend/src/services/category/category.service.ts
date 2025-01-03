@@ -4,14 +4,17 @@ import { CategoryCreateModel, CategoryModel } from "../../models/category.model"
 import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
 import { UserService } from ".././user.service";
+import { CategoryCacheService } from "./category.cache.service";
 
 
 export class CategoryrService{
 
     private repository;
+    private cache;
 
     constructor(){
         this.repository = prismaRepository.category;
+        this.cache = new CategoryCacheService();
     }
 
     private  async validate(data:Partial<CategoryCreateModel>, isUpdate:boolean = false){
@@ -86,6 +89,8 @@ export class CategoryrService{
             }
         })
 
+        //UPDATE CACHE
+        setImmediate(() => this.cache.addOrUpdate(result));
         return result;
     }
 
@@ -112,6 +117,8 @@ export class CategoryrService{
             
         })
 
+        //UPDATE CACHE
+        setImmediate(() => this.cache.addOrUpdate(result));
         return result;
     }
 
@@ -126,6 +133,8 @@ export class CategoryrService{
             }
         })
 
+        //UPDATE CACHE
+        setImmediate(() => this.cache.delete(id));
         return { message: "Successfully Deleted!"}
     }
 }
