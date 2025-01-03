@@ -1,10 +1,10 @@
-import { HttpError } from "../errors/http-error";
-import { HttpStatusCodes } from "../errors/http-status-codes";
-import { ProductCreateModel, ProductModel } from "../models/product.model";
-import prismaRepository from "../repositories";
-import isValidId from "../utils/valid.id";
-import { CategoryrService } from "./category.service";
-import { UserService } from "./user.service";
+import { HttpError } from "../../errors/http-error";
+import { HttpStatusCodes } from "../../errors/http-status-codes";
+import { ProductCreateModel, ProductModel } from "../../models/product.model";
+import prismaRepository from "../../repositories";
+import isValidId from "../../utils/valid.id";
+import { CategoryrService } from "../category/category.service";
+import { UserService } from ".././user.service";
 
 
 export class ProductService{

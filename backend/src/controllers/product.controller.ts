@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ProductService } from "../services/product.service";
+import { ProductService } from "../services/product/product.service";
 import { HttpError } from "../errors/http-error";
 import { ProductCreateModel } from "../models/product.model";
 

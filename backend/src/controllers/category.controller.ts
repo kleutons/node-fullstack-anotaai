@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CategoryrService } from "../services/category.service";
+import { CategoryrService } from "../services/category/category.service";
 import { HttpError } from "../errors/http-error";
 import { CategoryCreateModel } from "../models/category.model";
 

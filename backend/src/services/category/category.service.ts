@@ -1,9 +1,9 @@
-import { HttpError } from "../errors/http-error";
-import { HttpStatusCodes } from "../errors/http-status-codes";
-import { CategoryCreateModel, CategoryModel } from "../models/category.model";
-import prismaRepository from "../repositories";
-import isValidId from "../utils/valid.id";
-import { UserService } from "./user.service";
+import { HttpError } from "../../errors/http-error";
+import { HttpStatusCodes } from "../../errors/http-status-codes";
+import { CategoryCreateModel, CategoryModel } from "../../models/category.model";
+import prismaRepository from "../../repositories";
+import isValidId from "../../utils/valid.id";
+import { UserService } from ".././user.service";
 
 
 export class CategoryrService{
