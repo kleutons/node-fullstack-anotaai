@@ -3,9 +3,8 @@ import { HttpStatusCodes } from "../../errors/http-status-codes";
 import { ProductCreateModel, ProductModel } from "../../models/product.model";
 import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
-import { CategoryrService } from "../category/category.service";
 import { ProductCacheService } from "./product.cache.service";
-import { UserService } from ".././user.service";
+import { productValidate } from "./product.validate";
 
 
 export class ProductService{
@@ -16,40 +15,6 @@ export class ProductService{
     constructor(){
         this.repository = prismaRepository.product;
         this.cache = new ProductCacheService();
-    }
-
-    private  async validate(data:Partial<ProductCreateModel>, isUpdate:boolean = false){
-        const requiredFields: Array<keyof ProductCreateModel> = !isUpdate ? ["title", "ownerId", "categoryId", "price", "description"] : ["ownerId"];
-
-        for(const field of requiredFields){
-            if(!data[field]){
-                throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, `Field ${field} is mandatory!`);
-            }
-        }
-
-        //Check OwnerId
-        if(data.ownerId){
-            if(!isValidId(data.ownerId)){
-                throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Owner ID Inválido!");
-            }else{
-                const checkUser = await new UserService().userExists(data.ownerId);
-                if(!checkUser){
-                   throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Owner ID Not Found!");
-                } 
-            }
-        }
-
-        //Check CategoryId
-        if(data.categoryId && data.ownerId){
-            if(!isValidId(data.categoryId)){
-                throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid Category ID!");
-            }else{
-                const checkUser = await new CategoryrService().isExists(data.categoryId, data.ownerId);
-                if(!checkUser){
-                   throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Category ID Not Found!");
-                } 
-            }
-        }
     }
 
     async listAll(){
@@ -81,7 +46,7 @@ export class ProductService{
     }
 
     async create(data:ProductCreateModel){
-        await this.validate(data);
+        await productValidate(data);
 
         const result = await this.repository.create({
             data: data
@@ -94,7 +59,7 @@ export class ProductService{
 
 
     async update(id:string, data: Partial<ProductCreateModel>){
-        await this.validate(data, true);
+        await productValidate(data, true);
 
         const dataToUpdate: Partial<ProductCreateModel> = {};
 

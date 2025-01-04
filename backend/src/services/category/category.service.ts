@@ -3,8 +3,8 @@ import { HttpStatusCodes } from "../../errors/http-status-codes";
 import { CategoryCreateModel, CategoryModel } from "../../models/category.model";
 import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
-import { UserService } from ".././user.service";
 import { CategoryCacheService } from "./category.cache.service";
+import { categoryValidate } from "./category.validate";
 
 
 export class CategoryrService{
@@ -15,28 +15,6 @@ export class CategoryrService{
     constructor(){
         this.repository = prismaRepository.category;
         this.cache = new CategoryCacheService();
-    }
-
-    private  async validate(data:Partial<CategoryCreateModel>, isUpdate:boolean = false){
-        const requiredFields: Array<keyof CategoryCreateModel> = !isUpdate ? ["title", "ownerId", "description"] : ["ownerId"];
-        
-        for(const field of requiredFields){
-            if(!data[field]){
-                throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, `Field ${field} is mandatory!`);
-            }
-        }
-
-        if(data.ownerId){
-            if(!isValidId(data.ownerId)){
-                throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Owner ID Inválido!");
-            }else{
-                const checkUser = await new UserService().userExists(data.ownerId);
-                if(!checkUser){
-                   throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Owner ID Not Found!");
-                } 
-                    
-            }
-        }
     }
 
     async listAll(){
@@ -79,7 +57,7 @@ export class CategoryrService{
     }
 
     async create(data:CategoryCreateModel){
-        await this.validate(data);
+        await categoryValidate(data);
 
         const result = await this.repository.create({
             data:{
@@ -96,7 +74,7 @@ export class CategoryrService{
 
 
     async update(id:string, data: Partial<CategoryCreateModel>){
-        await this.validate(data);
+        await categoryValidate(data);
 
         const dataToUpdate: Partial<CategoryCreateModel> = {};
 
