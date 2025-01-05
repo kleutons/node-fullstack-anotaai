@@ -1,5 +1,5 @@
 # 🟢 Projeto Desafio Backend com Node.js e Express ANOTAI
-<img src="../docs/arquiteturaBackend.png" alt="Logo" height="500">
+<img src="../docs/arquiteturaBackend.png" alt="Logo" weight="85%">
 
 ## 📗 Descrição
 Este é um projeto de backend desenvolvido com Node.jse Express. Ele permite o cadastro de categorias e produtos, oferecendo funcionalidades de CRUD (Create, Read, Update, Delete) para cada um deles.
