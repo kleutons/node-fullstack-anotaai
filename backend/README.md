@@ -1,8 +1,25 @@
-# 🟢 Projeto Backend com Node.js e Express ANOTAI
+# 🟢 Projeto Desafio Backend com Node.js e Express ANOTAI
 <img src="../docs/arquiteturaBackend.png" alt="Logo" height="500">
 
 ## 📗 Descrição
 Este é um projeto de backend desenvolvido com Node.jse Express. Ele permite o cadastro de categorias e produtos, oferecendo funcionalidades de CRUD (Create, Read, Update, Delete) para cada um deles.
+
+# 🔥 Desafio
+Este projeto faz parte do desafio [GitHub Anotai - New Test Backend Node.js](https://github.com/githubanotaai/new-test-backend-nodejs).
+
+O desafio consiste em desenvolver uma API para um sistema de gerenciamento de catálogo de produtos em uma aplicação de marketplace, com base nas seguintes histórias de usuário:
+- Como usuário, quero cadastrar um produto com seu proprietário, para que eu possa acessar seus dados no futuro (título, descrição, preço, categoria, ID do proprietário).
+- Como usuário, quero cadastrar uma categoria com seu proprietário, para que eu possa acessar seus dados no futuro (título, descrição, ID do proprietário)
+- Como usuário, quero associar um produto a uma categoria.
+- Como usuário, quero atualizar os dados de um produto ou categoria.
+- Como usuário, quero deletar um produto ou categoria do meu catálogo.
+- Um produto pode estar associado apenas a uma categoria por vez.
+- Produtos e categorias pertencem apenas a um proprietário.
+- Gere o JSON do catálogo e publique-o para chache.
+
+Diagrama representando a estrutura final do projeto:
+
+![imagem]( https://github.com/githubanotaai/new-test-backend-nodejs/assets/52219768/504ba448-f128-41db-ae86-18dc19c0dc9d )
 
 # 🧩 Arquitetura em Camandas 
  - `routes`
@@ -82,8 +99,10 @@ Inicie o servidor
 - PUT api/product/:id - Atualiza um produto pelo ID
 - DELETE api/product/:id - Remove um produto pelo ID
 
+# 👥 Desafio
+- Este projeto faz parte do desafio [GitHub Anotai - New Test Backend Node.js](https://github.com/githubanotaai/new-test-backend-nodejs).
 
-## 👤 Author
+# 👤 Author
 
 | [<img src="https://avatars3.githubusercontent.com/u/106082564?s=96&v=4"><br><sub>Kleuton Novais</sub>](https://github.com/kleutons) |
 | :---------------------------------------------------------------------------------------------------------------------------------------: |
