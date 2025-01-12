@@ -36,6 +36,8 @@ Diagrama representando a estrutura final do projeto:
 - Prisma (ORM)
   
 # ⚙️ Funcionalidades
+## 🔐 Login
+ - Rota pare realizar Login (JWT)
 ## 👤 Usuários
  - Listagem de Usuários
  - Cadastro de Usuário
@@ -82,6 +84,8 @@ Inicie o servidor
 ```
 
 # 🌐 Endpoints
+## 🔐 Login
+ - GET api/login - Rota pare realizar Login (JWT)
 ## 👤 Usuários
 - GET api/category - Lista todas os usuários
 - POST api/category - Cria um novo usuário
