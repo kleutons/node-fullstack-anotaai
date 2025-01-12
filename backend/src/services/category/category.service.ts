@@ -112,8 +112,7 @@ export class CategoryrService{
         if(!category)
             throw new HttpError(HttpStatusCodes.ERRO_NOT_FOUND, "Category Not Found!");
         
-        console.log(category.ownerId);
-        console.log(ownerId);
+
         if(category.ownerId !== ownerId)
             throw new HttpError(HttpStatusCodes.ERRO_FORBIDDEN, "Forbidden: You don't have the required permissions.");
       
