@@ -51,7 +51,9 @@ export class UserController{
     }
 
     public async delete(req:Request, res:Response){
-        const {id} = req.params;
+        const id = req.params.id;
+        console.log('delete');
+        console.log(id);
 
         try{
             await this.service.delete(id);

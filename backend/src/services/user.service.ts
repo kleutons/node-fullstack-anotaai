@@ -74,6 +74,15 @@ export class UserService{
         return result;
     }
 
+    public async findByEmail(email:string):Promise<UserModel | null>{
+        const result = await this.repository.findUnique({
+            where:{
+                email
+            }
+        })
+        return result;
+    }
+
     public async userExists(id:string):Promise<Boolean>{
         const result = await this.repository.findFirst({
             where:{
@@ -82,6 +91,7 @@ export class UserService{
         })
         return result ? true : false;
     }
+
 
     async create(user:UserCreateModel){
         await this.validateUser(user);
