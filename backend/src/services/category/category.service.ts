@@ -4,11 +4,12 @@ import { CategoryCreateModel, CategoryModel } from "../../models/category.model"
 import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
 import { CategoryCacheService } from "./category.cache.service";
-import { categoryValidate } from "./category.validate";
+import { categoryValidate, productsInCategoryId } from "./category.validate";
 
 
 export class CategoryrService{
 
+    
     private repository;
     private cache;
 
@@ -30,6 +31,7 @@ export class CategoryrService{
                 where:{
                     ownerId
                 }
+                
             });
             return result;
     }
@@ -74,7 +76,7 @@ export class CategoryrService{
 
 
     async update(id:string, data: Partial<CategoryCreateModel>){
-        await categoryValidate(data);
+        await categoryValidate(data, true);
 
         const dataToUpdate: Partial<CategoryCreateModel> = {};
 
@@ -100,11 +102,24 @@ export class CategoryrService{
         return result;
     }
 
-    async delete(id:string){
-        if(id == "") throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid Id!");
+    async delete(id:string, ownerId?:string){
 
-        if(!await this.findById(id)) throw new HttpError(HttpStatusCodes.ERRO_NOT_FOUND, "User Not Found!");
+        if(!isValidId(id))
+            throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid ID!");
+        
+        const category = await this.findById(id);
 
+        if(!category)
+            throw new HttpError(HttpStatusCodes.ERRO_NOT_FOUND, "Category Not Found!");
+        
+        console.log(category.ownerId);
+        console.log(ownerId);
+        if(category.ownerId !== ownerId)
+            throw new HttpError(HttpStatusCodes.ERRO_FORBIDDEN, "Forbidden: You don't have the required permissions.");
+      
+        if(await productsInCategoryId(category.id))    
+            throw new HttpError(HttpStatusCodes.ERRO_NOT_FOUND, "This Category has registered products!");  
+        
         await this.repository.delete({
             where:{
                 id

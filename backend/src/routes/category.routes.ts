@@ -6,8 +6,8 @@ import AuthController from "../controllers/auth.controller";
 const  routesCategory = Router();
 const authController = new AuthController();
 
-routesCategory.get(ROUTERS.CATEGORY, authController.verifyToken, async (req:Request, res:Response) => {
-    new CategoryController().listAll(req,res);
+routesCategory.get(ROUTERS.CATEGORY+"/:ownerId", authController.verifyToken, async (req:Request, res:Response) => {
+    new CategoryController().listByOwnerId(req,res);
 });
 
 routesCategory.post(ROUTERS.CATEGORY, authController.verifyToken, async (req:Request, res:Response) => {

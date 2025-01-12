@@ -44,7 +44,10 @@ export default class AuthController {
 
             res.json({
                 message: "Login Successful!",
-                token
+                data: {
+                    userId: user.id,
+                    token
+                }
             });
             
         }catch(err){
@@ -102,8 +105,13 @@ export default class AuthController {
     // Validation to limit the use of the authenticated id itself in the token
     public ValidateGetIdUserToken(req: Request, res: Response, next: NextFunction) {
         const id = req.params.id;
+        
 
-        if (req.user && req.user.role !== UserRole.ADMIN && req.user.id === id) {
+        if (req.user && req.user.role === UserRole.ADMIN) {
+            next();
+            return
+        }else
+        if(req.user && req.user.id === id){
             next();
             return
         }

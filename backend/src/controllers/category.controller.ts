@@ -20,6 +20,16 @@ export class CategoryController{
         }
     }
 
+    public async listByOwnerId(req:Request, res:Response){
+        const ownerId = req.params.ownerId;
+        try{
+            const result = await this.service.listByOwnerId(ownerId);
+            res.status(200).json(result);    
+        }catch(err){
+            res.status(500).json({error:'Failed to list' }) 
+        }
+    }
+
     public async create(req:Request, res:Response){
         const user = req.body as CategoryCreateModel;
 
@@ -52,11 +62,13 @@ export class CategoryController{
 
     public async delete(req:Request, res:Response){
         const {id} = req.params;
+        const ownerId = req.user?.id;
 
         try{
-            await this.service.delete(id);
+            await this.service.delete(id, ownerId);
             res.status(204).send();
         }catch(err){
+            console.log(err);
             if(err instanceof HttpError)
                 return res.status(err.statusCode).json({error: err.message})
 

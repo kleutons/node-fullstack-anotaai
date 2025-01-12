@@ -1,6 +1,7 @@
 import { HttpError } from "../../errors/http-error";
 import { HttpStatusCodes } from "../../errors/http-status-codes";
 import { CategoryCreateModel } from "../../models/category.model";
+import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
 import { UserService } from "../user.service";
 
@@ -24,4 +25,14 @@ export async function categoryValidate(data:Partial<CategoryCreateModel>, isUpda
                 
         }
     }
+}
+
+export async function productsInCategoryId(categoryId:string) {
+    const isProduct = await prismaRepository.product.findFirst({
+        where:{
+            categoryId
+        }
+    });
+    
+    return isProduct ? true : false;
 }
