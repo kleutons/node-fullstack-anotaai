@@ -22,16 +22,24 @@ export class ProductService{
         return result;
     }
 
-    async listByOwnerId(ownerId:string){
+    async listByOwnerAndCategoryId(ownerId:string, categoryId?: string){
         
         if(!isValidId(ownerId)){
             throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid ID!");
         }
+        const whereClause: any = {
+            AND: [{ ownerId: ownerId }]
+        };
+    
+        if (categoryId) {
+            if (!isValidId(categoryId)) {
+                throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid Category Id!");
+            }
+            whereClause.AND.push({ categoryId: categoryId });
+        }
 
         const result = await this.repository.findMany({
-            where:{
-                ownerId
-            }
+            where: whereClause
         });
         return result;
     }

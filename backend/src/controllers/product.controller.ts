@@ -20,10 +20,17 @@ export class ProductController{
         }
     }
 
-    public async listByOwnerId(req:Request, res:Response){
+    public async listByOwnerAndCategoryId(req:Request, res:Response){
         const { ownerId } = req.params;
+        let categoryId = req.query.category;
+
+        console.log(categoryId);
+
+        if(Array.isArray(categoryId)) { categoryId = categoryId[0]; }
+        if(typeof categoryId !== 'string') { categoryId = undefined; }
+
         try{
-            const result = await this.service.listByOwnerId(ownerId);
+            const result = await this.service.listByOwnerAndCategoryId(ownerId, categoryId);
             res.status(200).json(result);    
         }catch(err){
             if(err instanceof HttpError)
