@@ -37,4 +37,9 @@ export async function productValidate(data:Partial<ProductCreateModel>, isUpdate
             } 
         }
     }
+
+    //Check Price
+    if(data.price && !isNaN(data.price)){
+        throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid Price!");
+    }
 }
