@@ -8,14 +8,14 @@ Este é um projeto de backend desenvolvido com Node.jse Express. Ele permite o c
 Este projeto faz parte do desafio [GitHub Anotai - New Test Backend Node.js](https://github.com/githubanotaai/new-test-backend-nodejs).
 
 O desafio consiste em desenvolver uma API para um sistema de gerenciamento de catálogo de produtos em uma aplicação de marketplace, com base nas seguintes histórias de usuário:
-- Como usuário, quero cadastrar um produto com seu proprietário, para que eu possa acessar seus dados no futuro (título, descrição, preço, categoria, ID do proprietário).
-- Como usuário, quero cadastrar uma categoria com seu proprietário, para que eu possa acessar seus dados no futuro (título, descrição, ID do proprietário)
-- Como usuário, quero associar um produto a uma categoria.
-- Como usuário, quero atualizar os dados de um produto ou categoria.
-- Como usuário, quero deletar um produto ou categoria do meu catálogo.
-- Um produto pode estar associado apenas a uma categoria por vez.
-- Produtos e categorias pertencem apenas a um proprietário.
-- Gere o JSON do catálogo e publique-o para chache.
+- [x] Como usuário, quero cadastrar um produto com seu proprietário, para que eu possa acessar seus dados no futuro (título, descrição, preço, categoria, ID do proprietário).
+- [x] Como usuário, quero cadastrar uma categoria com seu proprietário, para que eu possa acessar seus dados no futuro (título, descrição, ID do proprietário)
+- [x] Como usuário, quero associar um produto a uma categoria.
+- [x] Como usuário, quero atualizar os dados de um produto ou categoria.
+- [x] Como usuário, quero deletar um produto ou categoria do meu catálogo.
+- [x] Um produto pode estar associado apenas a uma categoria por vez.
+- [x] Produtos e categorias pertencem apenas a um proprietário.
+- [x] Gere o JSON do catálogo e publique-o para chache.
 
 Diagrama representando a estrutura final do projeto:
 
@@ -34,26 +34,7 @@ Diagrama representando a estrutura final do projeto:
 - Express
 - MongoDB
 - Prisma (ORM)
-  
-# ⚙️ Funcionalidades
-## 🔐 Login
- - Rota pare realizar Login (JWT)
-## 👤 Usuários
- - Listagem de Usuários
- - Cadastro de Usuário
- - Atualização de Usuário
- - Remoção de Usuário
-## 🗂️ Categorias
- - Listagem de Categorias
- - Cadastro de Categoria
- - Atualização de Categoria
- - Remoção de Categoria
-## 📦 Produtos
- - Listagem de Produtos
- - Cadastro de Produto
- - Atualização de Produto
- - Remoção de Produto
-
+- JWT (json web token)
 
 # 🛠️ Instalação
 Clone este repositório
@@ -70,9 +51,12 @@ Instale as dependências
 ```
 Configure as variáveis de ambiente
 - Crie um arquivo .env na raiz do projeto backend
-- Adicione as variáveis de ambiente necessárias: (ex: PORT para definir a porta, DB_URI para a conexão com o banco de dados)
-  - `PORT=3333`
-  - `DATABASE_URL="mongodb+srv://xxx"`
+- Adicione as variáveis de ambiente necessárias: (ex: PORT definir a porta do server, DATABASE_URL para a conexão com o banco de dados MongoDB, SECRET: Variavel de segurança para o JWT )
+  ```env
+    PORT=3333
+    DATABASE_URL="mongodb+srv://xxx"
+    SECRET="XXX"
+  ```
 
 Configure o Prisma
 ```
@@ -83,25 +67,79 @@ Inicie o servidor
     npm run dev
 ```
 
-# 🌐 Endpoints
+# 🌐 Endpoints / Funcionalidades
 ## 🔐 Login
- - GET api/login - Rota pare realizar Login (JWT)
+| Method | Path | Action |
+| ------ | ---- | ------ |
+| GET    | /api/login | Realizar Login (JWT) |
+
+### Exemplo Method GET de Login Retornar o Token:
+```json
+    { 
+        "email": "user@email.com",
+        "password": "xxx"
+    }
+ ```
+
+
 ## 👤 Usuários
-- GET api/category - Lista todas os usuários
-- POST api/category - Cria um novo usuário
-- PUT api/category/:id - Atualiza um usuário pelo ID
-- DELETE api/category/:id - Remove um usuário pelo ID
+| Method | Path | Action |
+| ------ | ---- | ------ |
+| GET       | /api/user     | Lista todas os usuários (Somente Admin) |
+| POST      | /api/user     | Cria um novo usuário (Somente Admin) |
+| PUT       | /api/user/:id | Atualiza um usuário pelo ID |
+| DELETE    | /api/user/:id | Remove um usuário pelo ID (Somente Admin) |
+
+### Exemplo Method Post para criar Usuários:
+```json
+    { 
+        "name": "User / Store Name",
+        "storeId": "store-name",
+        "email": "user@email.com",
+        "password": "xxx", 
+        "role": "ADMIM / STORE"
+    }
+ ```
+
 ## 🗂️ Categorias
-- GET api/category - Lista todas as categorias
-- POST api/category - Cria uma nova categoria
-- PUT api/category/:id - Atualiza uma categoria pelo ID
-- DELETE api/category/:id - Remove uma categoria pelo ID
+| Method | Path | Action |
+| ------ | ---- | ------ |
+| GET       | /api/category/:ownerId     | Lista todas as categorias de um usuário id |
+| POST      | /api/category     | Cria uma nova categoria |
+| PUT       | /api/category/:id | Atualiza uma categoria pelo ID |
+| DELETE    | /api/category/:id | Remove uma categoria pelo ID |
+
+### Exemplo Method Post para criar Categoria:
+```json
+    { 
+        "title": "Category title", 
+        "ownerId": "xxxx", 
+        "description": "product description"
+    }
+```
 
 ## 📦 Produtos
-- GET api/product - Lista todos os produtos
-- POST api/product - Cria um novo produto
-- PUT api/product/:id - Atualiza um produto pelo ID
-- DELETE api/product/:id - Remove um produto pelo ID
+
+| Method | Path | Action |
+| ------ | ---- | ------ |
+| GET       | /api/product/:ownerId     | Lista todos os produtos de um usuário id |
+| POST      | /api/product     | Cria um novo produto |
+| PUT       | /api/product/:id | Atualiza um produto pelo ID |
+| DELETE    | /api/product/:id | Remove um produto pelo ID |
+
+### Exemplo Method Post Para criar Produto:
+```json
+    { 
+        "title": "Product title", 
+        "ownerId": "xxxx", 
+        "categoryId": "xxxx", 
+        "price": "10.99", 
+        "description": "product description",  
+        "imgUrl": "https://exemple.com/img.jpg"  
+    }
+```
+
+
 
 # 👥 Desafio
 - Este projeto faz parte do desafio [GitHub Anotai - New Test Backend Node.js](https://github.com/githubanotaai/new-test-backend-nodejs).

@@ -19,7 +19,7 @@ routesUser.put(ROUTERS.USER+"/:id", authController.verifyToken, authController.V
     new UserController().update(req,res);
 });
 
-routesUser.delete(ROUTERS.USER+"/:id", authController.verifyToken, authController.ValidateGetIdUserToken, async (req:Request, res:Response) => {
+routesUser.delete(ROUTERS.USER+"/:id", authController.verifyToken, authController.isAdmin, async (req:Request, res:Response) => {
     new UserController().delete(req,res);
 });
 
