@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ProductService } from "../services/product/product.service";
 import { HttpError } from "../errors/http-error";
 import { ProductCreateModel } from "../models/product.model";
+import { PrismaClientValidationError } from "@prisma/client/runtime/library";
 
 export class ProductController{
 
@@ -24,8 +25,6 @@ export class ProductController{
         const { ownerId } = req.params;
         let categoryId = req.query.category;
 
-        console.log(categoryId);
-
         if(Array.isArray(categoryId)) { categoryId = categoryId[0]; }
         if(typeof categoryId !== 'string') { categoryId = undefined; }
 
@@ -46,8 +45,12 @@ export class ProductController{
             const result = await this.service.create(user);
             res.status(201).json(result);
         }catch(err){
+            
             if(err instanceof HttpError)
                 return res.status(err.statusCode).json({error: err.message})
+            
+            if(err instanceof PrismaClientValidationError)
+                console.log(err.message);
 
             res.status(500).json({error:'Failed to create' }) 
         }
