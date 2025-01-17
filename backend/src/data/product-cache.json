@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "id": "678992a23e4b860bbeef5c8c",
+    "title": "Suco",
+    "ownerId": "6774381f75d014608705b065",
+    "categoryId": "6787d1830899ce5dd0bc73db",
+    "price": 7.99,
+    "description": "Suco de Frutas",
+    "imgUrl": "https://exemple.com/img.jpg"
+  },
+  {
+    "id": "678993a43e4b860bbeef5c8d",
+    "title": "Pizza de Queijo",
+    "ownerId": "6774381f75d014608705b065",
+    "categoryId": "6789902e3e4b860bbeef5c8a",
+    "price": 17.59,
+    "description": "Tam. P",
+    "imgUrl": "https://exemple.com/img.jpg"
+  },
+  {
+    "id": "67880875f7155eb88d66ced2",
+    "title": "Cocacola",
+    "ownerId": "6774381f75d014608705b065",
+    "categoryId": "6787d1830899ce5dd0bc73db",
+    "price": 6.8,
+    "description": "Em Lata",
+    "imgUrl": "https://exemple.com/img.jpg"
+  }
+]

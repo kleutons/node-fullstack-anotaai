@@ -2,9 +2,11 @@
 <img src="../docs/arquiteturaBackend.png" alt="Logo" weight="85%">
 
 ## 📗 Descrição
-Este é um projeto de backend desenvolvido com Node.jse Express. Ele permite o cadastro de categorias e produtos, oferecendo funcionalidades de CRUD (Create, Read, Update, Delete) para cada um deles.
+Bem-vindo a um projeto desafiador e inovador! Este é um backend robusto, construído com Node.js e Express, projetado para transformar a maneira como você gerencia categorias e produtos. Com funcionalidades completas de CRUD (Create, Read, Update, Delete), ele vai além do básico ao gerar um catálogo JSON otimizado, servindo como um eficiente cache de dados para reduzir o impacto sobre o banco de dados MongoDB.
 
-# 🔥 Desafio
+Mas isso não é tudo! O sistema conta com autenticação avançada de usuários, implementada com JWT (JSON Web Token), garantindo acesso seguro e permitindo a definição de diferentes níveis de permissões. Este é mais do que um backend comum – é um desafio emocionante para criar uma solução poderosa, escalável e segura. 🚀
+
+# 🔥 Desafio Técnico
 Este projeto faz parte do desafio [GitHub Anotai - New Test Backend Node.js](https://github.com/githubanotaai/new-test-backend-nodejs).
 
 O desafio consiste em desenvolver uma API para um sistema de gerenciamento de catálogo de produtos em uma aplicação de marketplace, com base nas seguintes histórias de usuário:
@@ -21,7 +23,7 @@ Diagrama representando a estrutura final do projeto:
 
 ![imagem]( https://github.com/githubanotaai/new-test-backend-nodejs/assets/52219768/504ba448-f128-41db-ae86-18dc19c0dc9d )
 
-# 🧩 Arquitetura em Camandas 
+# 🧩 Arquitetura em Camadas 
  - `routes`
  - `controllers`
  - `services`
@@ -139,10 +141,27 @@ Inicie o servidor
     }
 ```
 
+## 📲 Catálogo
 
+| Method | Path | Action |
+| ------ | ---- | ------ |
+| GET       | /api/catalog/:ownerId     | Lista catálogo .json de um usuário id |
 
-# 👥 Desafio
-- Este projeto faz parte do desafio [GitHub Anotai - New Test Backend Node.js](https://github.com/githubanotaai/new-test-backend-nodejs).
+### Exemplo Method Get Para Mostrar Catálogo em Cache:
+```json
+    { 
+        ownerId,
+        catalog: [{
+            category_title,
+            category_description,
+            items: [{
+                title, 
+                description,
+                price,
+                imgUrl?
+            }]
+    }
+```
 
 # 👤 Author
 
