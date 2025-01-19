@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Outlet } from "react-router";
-import Header from "../components/dashboard/header";
+import Header from "../components/dashboard/Header";
 import SidebarMenu from "../components/dashboard/SidebarMenu";
 import Footer from "../components/dashboard/Footer";
 
