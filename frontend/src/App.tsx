@@ -1,10 +1,8 @@
-import './App.css'
-
 function App() {
 
   return (
     <>
-      <h1>Front End</h1>
+      <h1 className="text-3xl font-bold underline">Front End</h1>
     </>
   )
 }
