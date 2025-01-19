@@ -1,9 +1,18 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoginPage from "./app/LoginPage";
+import HomePage from "./app/HomePage";
+import NotFoundPage from "./app/NotFoundPage";
+
 function App() {
 
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Front End</h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
