@@ -4,6 +4,7 @@ import HomePage from "./app/HomePage";
 import NotFoundPage from "./app/NotFoundPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import UserPage from "./app/UserPage";
+import CategoryPage from "./app/CategoryPage";
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
         <Route path="/" element={<DashboardLayout />}>
           <Route index                element={<HomePage />} />
           <Route path="/user"         element={<UserPage />} />
-
+          <Route path="/category"     element={<CategoryPage />} />
         </Route>
         
       </Routes>
