@@ -5,6 +5,8 @@ import NotFoundPage from "./app/NotFoundPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import UserPage from "./app/UserPage";
 import CategoryPage from "./app/CategoryPage";
+import ProductPage from "./app/ProductPage";
+import DevPage from "./app/DevPage";
 
 function App() {
 
@@ -18,6 +20,8 @@ function App() {
           <Route index                element={<HomePage />} />
           <Route path="/user"         element={<UserPage />} />
           <Route path="/category"     element={<CategoryPage />} />
+          <Route path="/product"      element={<ProductPage />} />
+          <Route path="/dev"          element={<DevPage />} />
         </Route>
         
       </Routes>
