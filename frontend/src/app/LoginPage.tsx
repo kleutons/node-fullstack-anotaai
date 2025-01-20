@@ -1,16 +1,18 @@
 import ContactDev from "../components/ContactDev";
 import ButtonPrimay from "../components/dashboard/ButtonPrimay";
+import InputCheckbox from "../components/dashboard/InputCheckbox";
 import InputText from "../components/dashboard/InputText";
 
 export default function LoginPage(){
     return <div className="flex flex-col md:grid md:grid-cols-2 h-screen justify-center items-center">
         <div className="w-full min-h-[390px] pt-6 md:pt-0 flex items-center justify-center md:justify-end px-4 md:pr-20 md:pl-8">
             <div className="flex flex-col gap-2 md:gap-3 w-full md:max-w-[500px]">
-                <h1 className=" text-3xl md:text-4xl font-bold">Login</h1>
+                <h1 className=" text-3xl md:text-4xl font-bold">Login Anota AI</h1>
                 <hr className="mb-5" />
 
                 <InputText label="Email" />
                 <InputText label="Senha" />
+                <InputCheckbox label="Mostrar Senha" />
                 
                 <ButtonPrimay text="ENTRAR" />
             </div>
