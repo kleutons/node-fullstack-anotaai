@@ -1,7 +1,8 @@
 export default interface UserType{
-    id?: string,
-    name: string,
-    store: string,
-    email: string,
-    urlImg?: string
+    id            :string
+    name          :string,
+    storeId       :string,
+    email         :string,
+    role          :string
+    imgUrl?       :string
 }

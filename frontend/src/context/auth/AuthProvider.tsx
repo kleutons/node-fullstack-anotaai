@@ -11,14 +11,15 @@ export function AuthProvider( {children}:AuthProviderProps ){
     const [user, setUser]   = useState<UserType>();
     const [token, setToken] = useState<string>();
 
-    const login = (username: string, password: string) => {
+    const login = (email: string, password: string) => {
         const fakeToken = '1234567890abcdef'; 
-        const fakeUser:UserType = { id: '1', name: username, email: 'usuario@exemplo.com', store: '' }; 
+        const fakeUser:UserType = { id: '1', name: "username", email: email, storeId: '', role: '' }; 
         if(password){
             setIsAuthenticated(true); 
             setUser(fakeUser); 
             setToken(fakeToken);
         }
+        console.log(fakeUser);
     }
 
     const logout = () => { 
