@@ -6,6 +6,7 @@ import { HttpStatusCodes } from "../errors/http-status-codes";
 import { HttpError } from "../errors/http-error";
 import { UserRole } from "@prisma/client";
 import { CLIENT_RENEG_LIMIT } from "tls";
+import { UserDataReturn } from "../models/user.model";
 
 
 const SECRET = process.env.SECRET || 'jwt-secret';
@@ -42,11 +43,23 @@ export default class AuthController {
 
             const token = jwt.sign({id: user.id, email: user.email, role: user.role}, SECRET, {expiresIn: '1h'});
 
+            const userData: UserDataReturn = {
+                id: user.id,
+                name: user.name,
+                storeId: user.storeId,
+                email: user.email,
+                role: user.role
+            };
+
+            if(user.imgUrl){
+                userData.imgUrl = user.imgUrl;
+            }
+
             res.json({
                 message: "Login Successful!",
                 data: {
-                    userId: user.id,
-                    token
+                    token,
+                    user: userData
                 }
             });
             
