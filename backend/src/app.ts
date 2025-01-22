@@ -5,8 +5,14 @@ import router from "./routes/routes";
 export default function createApp(){
     const app = express();
 
+    const corsOptions = {
+        origin: '*', // Permite requisições de qualquer origem
+        methods: 'GET,POST,PUT,DELETE', // Métodos HTTP permitidos
+        allowedHeaders: 'Content-Type,Authorization' // Cabeçalhos permitidos
+    };
+
     //Use Cors
-    app.use(cors())
+    app.use(cors(corsOptions))
     
     //Middleware JSON
     app.use(express.json());
