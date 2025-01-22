@@ -19,3 +19,11 @@ export interface UserCreateModel{
     status?       :boolean
     imgUrl?       :string
 }
+export interface UserDataReturn{
+    id            :string
+    name          :string,
+    storeId       :string,
+    email         :string,
+    role          :UserRole
+    imgUrl?       :string
+}
