@@ -7,6 +7,8 @@ export interface AuthContextType{
     token?: string;
     login: (email: string, password: string) => void; 
     logout: () => void;
+    loading: boolean;
+    error: string | null
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

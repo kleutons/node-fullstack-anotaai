@@ -8,6 +8,7 @@ import CategoryPage from "./app/CategoryPage";
 import ProductPage from "./app/ProductPage";
 import DevPage from "./app/DevPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import TestPage from "./app/TestPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/category"     element={<ProtectedRoute element={<CategoryPage />} />} />
           <Route path="/product"      element={<ProtectedRoute element={<ProductPage />} />} />
           <Route path="/dev"          element={<DevPage />} />
+          <Route path="/test"        element={<TestPage />} />
   
         </Route>
       </Routes>
