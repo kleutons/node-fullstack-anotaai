@@ -4,8 +4,15 @@ import { Link } from 'react-router';
 import TitlePage from '../components/dashboard/TitlePage';
 import ButtonPrimay from '../components/dashboard/ButtonPrimay';
 import CardHome from '../components/dashboard/CardHome';
+import useAuth from '../hooks/useAuth';
+import useTotal from '../hooks/useTotal';
 
 export default function HomePage() {
+
+    const {user} = useAuth();
+    const total = useTotal();
+
+
     const [currentDate, setCurrentDate] = useState({
         day: '',
         month: '',
@@ -31,7 +38,7 @@ export default function HomePage() {
                     <CardHome>
                         <div>
                             <p className="text-lg font-medium">Bem Vindo:</p>
-                            <h3 className="text-2xl text-slate-800 font-semibold">Usuário</h3>
+                            <h3 className="text-2xl text-slate-800 font-semibold">{user?.name}</h3>
                         </div>
                         <User className="text-sky-600 " size={40} />
                     </CardHome>
@@ -53,7 +60,7 @@ export default function HomePage() {
                 <div className="flex flex-col md:flex-row gap-4 max-w-full lg:max-w-[80%] ">
                     
                     <CardHome type='secondary'>
-                        <h3 className="text-6xl font-bold">02</h3>
+                        <h3 className="text-6xl font-bold">{total.categories}</h3>
                         <div className="w-full flex flex-col items-end">
                             <Tag className="text-sky-600 " size={40} />
                             <h4 className="font-medium text-lg">Categorias</h4>
@@ -62,7 +69,7 @@ export default function HomePage() {
                     </CardHome>
                     
                     <CardHome type='secondary'>
-                        <h3 className="text-6xl font-bold">06</h3>
+                        <h3 className="text-6xl font-bold">{total.products}</h3>
                         <div className="flex flex-col items-end">
                             <Package className="text-sky-600 " size={40} />
                             <h4 className="font-medium text-lg">Produtos</h4>
