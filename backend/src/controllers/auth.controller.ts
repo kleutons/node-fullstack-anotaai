@@ -5,7 +5,6 @@ import { UserService } from "../services/user.service";
 import { HttpStatusCodes } from "../errors/http-status-codes";
 import { HttpError } from "../errors/http-error";
 import { UserRole } from "@prisma/client";
-import { CLIENT_RENEG_LIMIT } from "tls";
 import { UserDataReturn } from "../models/user.model";
 
 
@@ -28,7 +27,7 @@ export default class AuthController {
             
             if(!user){
                 res.status(HttpStatusCodes.ERRO_UNAUTHORIZED)
-                .json({erro: "Not Authorized"})
+                .json({error: "Not Authorized"})
 
                 return;
             }
@@ -37,7 +36,7 @@ export default class AuthController {
 
             if(!isValidPass){
                 res.status(HttpStatusCodes.ERRO_UNAUTHORIZED)
-                .json({erro: "Not Authorized!"})
+                .json({error: "Not Authorized!"})
                 return;
             }
 
@@ -56,11 +55,8 @@ export default class AuthController {
             }
 
             res.json({
-                message: "Login Successful!",
-                data: {
                     token,
                     user: userData
-                }
             });
             
         }catch(err){
@@ -80,14 +76,14 @@ export default class AuthController {
 
         if(!token){
             res.status(HttpStatusCodes.ERRO_UNAUTHORIZED)
-            .json({erro: "Not Authorized!"})
+            .json({error: "Not Authorized!"})
             return;
         }
 
         jwt.verify(token, SECRET, (error: any, decoded:any) => {
             if(error){
                 res.status(HttpStatusCodes.ERRO_UNAUTHORIZED)
-                .json({erro: "Invalid Token!"})
+                .json({error: "Invalid Token!"})
                 return;
             }
 
@@ -111,7 +107,7 @@ export default class AuthController {
         }
 
         res.status(HttpStatusCodes.ERRO_FORBIDDEN)
-        .json({erro: "Forbidden: You don't have the required permissions."})
+        .json({error: "Forbidden: You don't have the required permissions."})
         return;
     }
 
@@ -130,7 +126,7 @@ export default class AuthController {
         }
 
         res.status(HttpStatusCodes.ERRO_FORBIDDEN)
-        .json({erro: "Forbidden: You don't have the required permissions."});
+        .json({error: "Forbidden: You don't have the required permissions."});
         return;
     }
     
