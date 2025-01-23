@@ -16,8 +16,8 @@ interface LocalDataUser{
 
 export function AuthProvider( {children}:AuthProviderProps ){
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
-    const [user, setUser]   = useState<UserType>();
-    const [token, setToken] = useState<string>();
+    const [user, setUser]   = useState<UserType | null>( null);
+    const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -70,8 +70,8 @@ export function AuthProvider( {children}:AuthProviderProps ){
 
     const logout = () => { 
         setIsAuthenticated(false); 
-        setUser(undefined); 
-        setToken(undefined);
+        setUser(null); 
+        setToken(null);
         
         removeLocalStorage();
     }

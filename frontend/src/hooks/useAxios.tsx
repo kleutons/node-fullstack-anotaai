@@ -5,7 +5,7 @@ export interface useAxiosProps {
   axiosInstance: AxiosInstance;
   method: "get" | "post" | "put" | "delete";  // Métodos HTTP esperados
   url: string;
-  token?:string;
+  token:string | null;
   othersConfigs?: object; 
 }
 
@@ -23,6 +23,7 @@ export default function useAxios<T>({ axiosInstance, method, url, token, othersC
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('entrou no use axios');
       if(token){
         setError(null);
         setLoading(true);
@@ -42,7 +43,7 @@ export default function useAxios<T>({ axiosInstance, method, url, token, othersC
     };
     
     fetchData();
-  }, [method, url, token, othersConfigs] );
+  }, [token] );
 
   return { data, loading, error };
 }
