@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import UserType from "../../types/UserType";
 import axiosInstance from "../../utils/AxiosInstance";
@@ -15,9 +15,10 @@ interface LocalDataUser{
 }
 
 export function AuthProvider( {children}:AuthProviderProps ){
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
-    const [user, setUser]   = useState<UserType | null>( null);
-    const [token, setToken] = useState<string | null>(null);
+    const token = localStorage.getItem('token');
+    const userString = localStorage.getItem('user');
+    const user: UserType | null = userString ? JSON.parse(userString) : null;
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(token && user ? true : false);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -31,17 +32,7 @@ export function AuthProvider( {children}:AuthProviderProps ){
         localStorage.removeItem('user');
     };
 
-    const checkLogin = () => {
-        const token = localStorage.getItem('token');
-        const user = localStorage.getItem('user');
-        if (token && user) {
-            setToken(token);
-            setUser(JSON.parse(user));
-            setIsAuthenticated(true);
-        }else{
-            setIsAuthenticated(false);
-        }
-    };
+   
 
     const login = async (email: string, password: string) => {
         setLoading(true);
@@ -51,13 +42,9 @@ export function AuthProvider( {children}:AuthProviderProps ){
                     email,
                     password
                 });
-            
-            setToken(response.data.token);
-            setUser(response.data.user);
-            setIsAuthenticated(true);
 
+            setIsAuthenticated(true);
             saveLocalStorage(response.data);
-            
         }catch(err){
             const axiosError = err as AxiosError<ErrorResponse>;
             const returnErro = axiosError.response ? `Error: ${axiosError.response.data?.error}` : `Error fetching data: ${err}`;
@@ -70,15 +57,9 @@ export function AuthProvider( {children}:AuthProviderProps ){
 
     const logout = () => { 
         setIsAuthenticated(false); 
-        setUser(null); 
-        setToken(null);
-        
         removeLocalStorage();
     }
 
-    useEffect(() =>{
-        checkLogin();
-    }, []);
 
     return(
         <AuthContext.Provider 
