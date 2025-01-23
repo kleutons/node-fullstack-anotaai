@@ -12,12 +12,16 @@ interface CategoryListProps{
 
 export default function CategoryList({loading = false, data, editAction, trashAction}:CategoryListProps){
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) 
+        return <p>Carregando...</p>;
+
+    if(data == undefined)
+        return <p>Nehuma Categoria Encontrada.</p>;
     
     return (
     <>
         {
-            data?.map((item)=>(
+            data.map((item)=>(
                 <div key={item.id} className="bg-white p-2 rounded-md flex justify-between items-center">
                     <div className="flex-1 pt-4 pl-4 flex flex-col gap-2">
 
