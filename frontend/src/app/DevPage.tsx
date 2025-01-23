@@ -4,6 +4,7 @@ import TitlePage from "../components/dashboard/TitlePage";
 
 
 export default function DevPage(){
+    console.log('teste');
     return (
         <>
             <TitlePage text="Desenvolvedor" />

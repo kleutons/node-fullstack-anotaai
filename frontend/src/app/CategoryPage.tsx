@@ -1,6 +1,4 @@
-import { CirclePlus } from "lucide-react";
-import { Link } from "react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import TitlePage from "../components/dashboard/TitlePage";
 import HeaderList from "../components/dashboard/HeaderList";
 import FilterSearch from "../components/dashboard/FilterSearch";
@@ -8,72 +6,73 @@ import ButtonAddListItem from "../components/dashboard/ButtonAddListItem";
 import Modal from "../components/Modal";
 import InputText from "../components/dashboard/InputText";
 import InputTextArea from "../components/dashboard/InputTextArea";
-import ButtonsActionForList from "../components/dashboard/ButtonsActionForList";
-
-
-
-
-const categoryItems = [
-    {   
-        id: '01', name: "Bebidas"
-    },
-    {
-        id: '02', name: "Lanches"
-    }
-]
+import useAuth from "../hooks/useAuth";
+import CategoryList from "../components/CategoryList";
+import { CategoryType } from "../types/CategoryType";
+import useAxios, { useAxiosProps } from "../hooks/useAxios";
+import axiosInstance from "../utils/AxiosInstance";
 
 export default function CategoryPage() {
-   
-    const [showModal, setShowModal] = useState(false);
+    const {token} = useAuth();
+    const [dataEdit, setDataEdit] = useState<CategoryType>();
 
+    const [showModal, setShowModal] = useState(false);
     function toggleShowModal(){
-        setShowModal(!showModal);
+       setShowModal(!showModal);
+       if(showModal == false)
+        setDataEdit(undefined);
     }
 
+    const titleModal = dataEdit ? "Editar Categoria" : "Cadastrar Categoria";
+
+    const handleEditAction = (item: CategoryType) => {
+        setDataEdit(item);
+        setShowModal(true);
+    };
+
+
+    const axiosConfig:useAxiosProps = useMemo(() => ({
+        axiosInstance,
+        method: "get",
+        url: "/category",
+        token,
+        othersConfigs: {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    }), [token]); 
+
+    const {data, error} = useAxios<CategoryType[]>(axiosConfig);
+    
     return (
         <>
             <TitlePage text="Categorias" />
             
             <HeaderList>
-                
                 <FilterSearch />
                 <ButtonAddListItem 
                     text="Nova Categoria" 
                     actionBtn={toggleShowModal} />
-
             </HeaderList>
             
-            <Modal isShow={showModal} toggleModal={toggleShowModal} >
-               <InputText       label="Título da Categoria" />
-               <InputTextArea   label="Descrição" />
+            <Modal 
+                title={titleModal}
+                isShow={showModal} 
+                toggleModal={toggleShowModal}
+             >
+               <InputText       label="Título da Categoria" value={dataEdit?.title || ''} />
+               <InputTextArea   label="Descrição" value={dataEdit?.description || ''} />
             </Modal>
-
+            {
+                error && error !== "undefined" && (
+                    <div className="text-red-400">
+                        {error}
+                    </div>
+                )
+            }
             <section className="mt-6 gap-4 flex flex-col">
-                {
-                    categoryItems.map((item)=>(
-                        <div key={item.id} className="bg-white p-2 rounded-md flex justify-between items-center">
-                            <div className="flex-1 pt-4 pl-4 flex flex-col gap-2">
-
-                                <h3 className="text-2xl">{item.name}</h3>
-
-                                <Link to={'/product'} className="flex items-center justify-center gap-1" >
-                                    <CirclePlus size={18} />  
-                                    <span>Adicionar Produto</span>
-                                </Link>
-
-                            </div>
-                            <div className="flex p-2 flex-col gap-2">
-                                {
-                                    <ButtonsActionForList
-                                        trashAction={()=>console.log('delete')}
-                                        editAction={()=>console.log('editar')}
-                                    />
-                                }
-                            </div>
-                        </div>
-                    ))
-                }
-                
+                <CategoryList data={data} editAction={handleEditAction}  />
             </section>
         </>
     );

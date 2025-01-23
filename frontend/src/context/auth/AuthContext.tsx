@@ -3,8 +3,8 @@ import UserType from "../../types/UserType";
 
 export interface AuthContextType{
     isAuthenticated: boolean;
-    user?: UserType;
-    token?: string;
+    user: UserType;
+    token: string;
     login: (email: string, password: string) => void; 
     logout: () => void;
     loading: boolean;

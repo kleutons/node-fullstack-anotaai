@@ -1,38 +1,48 @@
 import { AxiosError, AxiosInstance, AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-interface ConfigRequest {
+export interface useAxiosProps {
   axiosInstance: AxiosInstance;
-  method: "get" | "post" | "put" | "delete";  // Adicionando métodos HTTP esperados
+  method: "get" | "post" | "put" | "delete";  // Métodos HTTP esperados
   url: string;
-  othersConfigs?: object;  // Tornando opcional
+  token?:string;
+  othersConfigs?: object; 
 }
 
 interface ErrorResponse {
-  message?: string;  
+  error?: string;  
 }
 
-export default function useAxios<T>({ axiosInstance, method, url, othersConfigs }: ConfigRequest) {
+export default function useAxios<T>({ axiosInstance, method, url, token, othersConfigs }: useAxiosProps) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Use useRef to store axiosInstance
+  const axiosInstanceRef = useRef(axiosInstance);
+
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response: AxiosResponse<T> = await axiosInstance[method](url, othersConfigs);
-        setData(response.data);
-      } catch (err) {
-        const axiosError = err as AxiosError<ErrorResponse>;
-        const returnErro = axiosError.response ? `Error: ${axiosError.response.data?.message}` : `Error fetching data: ${err}`;
-        setError(returnErro);
-      } finally {
-        setLoading(false);
+      if(token){
+        setError(null);
+        setLoading(true);
+        try {
+          const response: AxiosResponse<T> = await axiosInstanceRef.current[method](url, othersConfigs);
+          setData(response.data);
+        } catch (err) {
+          console.log(err);
+          const axiosError = err as AxiosError<ErrorResponse>;
+          const returnErro = axiosError.response?.data ? `Error: ${axiosError.response.data?.error}` : `Error fetching data: ${err}`;
+          setError(returnErro);
+        } finally {
+          setLoading(false);
+        }
       }
+      
     };
-
+    
     fetchData();
-  }, [axiosInstance, method, url, othersConfigs] );
+  }, [method, url, token, othersConfigs] );
 
   return { data, loading, error };
 }
