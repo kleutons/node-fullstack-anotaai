@@ -24,6 +24,7 @@ export class CategoryrService{
     }
 
     async listByOwnerId(ownerId:string){
+        console.log('aqui');
             if(!isValidId(ownerId)){
                 throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid ID!");
             }

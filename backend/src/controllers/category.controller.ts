@@ -21,12 +21,17 @@ export class CategoryController{
     }
 
     public async listByOwnerId(req:Request, res:Response){
-        const ownerId = req.params.ownerId;
-        try{
-            const result = await this.service.listByOwnerId(ownerId);
-            res.status(200).json(result);    
-        }catch(err){
-            res.status(500).json({error:'Failed to list' }) 
+        
+        if(req.user !== undefined){
+            const ownerId = req.user.id;
+            try{
+                const result = await this.service.listByOwnerId(ownerId);
+                res.status(200).json(result);    
+            }catch(err){
+                res.status(500).json({error:'Failed to list' }) 
+            }
+        }else{
+            res.status(500).json({error:'Invalid ownerId!' }) 
         }
     }
 
