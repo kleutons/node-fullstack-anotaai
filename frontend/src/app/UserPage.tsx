@@ -6,6 +6,8 @@ import CardSection from "../components/dashboard/CardSection";
 import InputText from "../components/dashboard/InputText";
 import ButtonPrimay from "../components/dashboard/ButtonPrimay";
 import UserType from "../types/UserType";
+import ButtonSecondary from "../components/dashboard/ButtonSecondary";
+import { Link } from "react-router";
 
 
 export default function UserPage() {
@@ -34,13 +36,13 @@ export default function UserPage() {
                     <div className="flex flex-col md:flex-row gap-8 w-full mb-6">
                         <div className="flex-1">
                             <InputText label="Nome:" onChange={handleInputChage('name')}  />
-                            <InputText label="Nome da Loja:" name="store" onChange={handleInputChage('store')}  />
+                            <InputText label="Nome da Loja:" name="store" onChange={handleInputChage('storeId')}  />
                             <InputText label="Email:" name="email"  onChange={handleInputChage('email')} />
                         </div>
                         <div className="w-full md:w-2/5 flex flex-col justify-center items-center gap-6">
 
-                            {user?.urlImg ? (
-                                <img src={user.urlImg}  className="w-[144px] h-[144px] rounded-full object-cover object-cente"/>
+                            {user?.imgUrl ? (
+                                <img src={user.imgUrl}  className="w-[144px] h-[144px] rounded-full object-cover object-cente"/>
                             
                             ) : (
                                 <div className="bg-slate-200 rounded-full p-8 text-sky-900">
@@ -48,12 +50,15 @@ export default function UserPage() {
                                 </div>
                             )}
                             <div className="w-full">
-                                <InputText name="urlImg" label="URL da Imagem:" onChange={handleInputChage('urlImg')}  />
+                                <InputText name="urlImg" label="URL da Imagem:" onChange={handleInputChage('imgUrl')}  />
                             </div>
                         </div>
                     </div>
 
-                    <div className="w-2/5">
+                    <div className=" w-full md:w-3/5 flex flex-col md:flex-row justify-between gap-4">
+                        <Link to={'/login'} className="w-full" >
+                            <ButtonSecondary text="Sair" />
+                        </Link>
                         <ButtonPrimay type="submit" text="Salvar" />
                     </div>
                 </form>
