@@ -21,9 +21,8 @@ export class CategoryController{
     }
 
     public async listByOwnerId(req:Request, res:Response){
-        
         if(req.user !== undefined){
-            const ownerId = req.user.id;
+            const ownerId = req.user?.id ?? '';
             try{
                 const result = await this.service.listByOwnerId(ownerId);
                 res.status(200).json(result);    
@@ -37,6 +36,7 @@ export class CategoryController{
 
     public async create(req:Request, res:Response){
         const user = req.body as CategoryCreateModel;
+        user.ownerId = req.user?.id ?? '';
 
         try{    
             const result = await this.service.create(user);
@@ -52,6 +52,7 @@ export class CategoryController{
 
     public async update(req:Request, res:Response){
         const user = req.body as CategoryCreateModel;
+        user.ownerId = req.user?.id ?? '';
         const {id} = req.params;
 
         try{
