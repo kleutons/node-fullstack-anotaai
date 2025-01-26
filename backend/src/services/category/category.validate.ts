@@ -5,14 +5,26 @@ import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
 import { UserService } from "../user.service";
 
-export async function categoryValidate(data:Partial<CategoryCreateModel>, isUpdate:boolean = false){
-    const requiredFields: Array<keyof CategoryCreateModel> = !isUpdate ? ["title", "ownerId", "description"] : ["ownerId"];
-            
-    for(const field of requiredFields){
-        if(!data[field]){
-            throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, `Field ${field} is mandatory!`);
+export async function categoryValidate(data:Partial<CategoryCreateModel>){
+    
+    const requiredFields: Array<keyof CategoryCreateModel> = [
+            "title",
+            "ownerId",
+            "description",
+        ];
+    
+    for (const field of requiredFields) {
+        let value = data[field];
+        if (typeof value === 'string') {
+            // Remove espaços em branco do início e do fim
+            value = value.trim();
+            data[field] = value;
+        }
+        if (!value || value === '') {
+            throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, `Field ${field} is mandatory and cannot be empty!`);
         }
     }
+    
 
     if(data.ownerId){
         if(!isValidId(data.ownerId)){
