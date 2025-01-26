@@ -1,6 +1,3 @@
-
-import { useState } from "react";
-
 import TitlePage from "../components/dashboard/TitlePage";
 import HeaderList from "../components/dashboard/HeaderList";
 import FilterSearch from "../components/dashboard/FilterSearch";
@@ -11,71 +8,81 @@ import InputText from "../components/dashboard/InputText";
 import Select from "../components/dashboard/Select";
 import InputTextArea from "../components/dashboard/InputTextArea";
 import CardSection from "../components/dashboard/CardSection";
-import ButtonsActionForList from "../components/dashboard/ButtonsActionForList";
+import { useProductList } from "../hooks/product/useProductList";
+import { Toaster } from "react-hot-toast";
+import ProductList from "../components/ProductList";
+import { useProductForm } from "../hooks/product/useProductForm";
+import isProductFullType from "../utils/isProductFullType";
+import { useProductDelete } from "../hooks/product/useProductDelete";
+import { useCategoryList } from "../hooks/category/useCategoryList";
+import { ImagePlus } from "lucide-react";
 
-
-const produtostems = [
-    { id: '01', name: "CocaCola", category: "Bebida" },
-    { id: '02', name: "Sprite", category: "Bebida" },
-    { id: '03', name: "Suco de Uva", category: "Bebida" },
-    { id: '04', name: "Hamburguer", category: "Lanche" },
-    { id: '05', name: "Pizza", category: "Lanche" }
-];
 
 export default function ProductPage() {
-    const [showModal, setShowModal] = useState(false);
+
+    const { data:categoryData }     = useCategoryList();
+    const { data, actionList }      = useProductList();
+    const { modal, item, action }   = useProductForm(actionList.addOrUpdateItemList);
+    const { actionDelete }          = useProductDelete(actionList.deleteIdList);
     
-    function toggleShowModal(){
-        setShowModal(!showModal);
-    }
+    const titleModal = !isProductFullType(item.dataForm)  ? "Cadastrar Produto" : "Editar Produto";
     
     return (
         <>
+            <div><Toaster/></div>
             <TitlePage text="Produtos" />
 
             <HeaderList>
-
-                <FilterSearch />
-                <FilterSelect /> 
+                <FilterSearch onSearch={data.searchProduct} />
+                <FilterSelect categories={categoryData.categories} onFilter={data.filterByCategory}  /> 
                 <ButtonAddListItem 
                     text="Novo Produto" 
-                    actionBtn={toggleShowModal} />
-
+                    actionBtn={modal.toggleModal} />
             </HeaderList>
 
-            <Modal isShow={showModal} toggleModal={toggleShowModal} >
-                <InputText       label="Nome do Produto" />
-                <Select label="Categoria" options={['Bebidas', 'Lanches']}/>
-                <InputText       label="(R$) Preço" type={'number'} />
-                <InputTextArea   label="Descrição" />
+            <Modal 
+                title={titleModal}
+                isShow={modal.showModal} 
+                isLoading={modal.isLoading}
+                toggleModal={modal.toggleModal}
+                submitAction={action.submitItem}
+            >   
+                <div className="flex flex-col md:flex-row gap-8 w-full mb-6">
+                    <div className="flex-1">
+                        <InputText       label="Nome do Produto" name='title' value={item.dataForm.title || ''} onChange={item.setInputValue}  />
+                        <Select 
+                            label="Categoria" 
+                            name='categoryId'
+                            options={categoryData.categories.map(category => ({ id: category.id, title: category.title }))}
+                            value={item.dataForm.categoryId || ''} 
+                            onChange={item.setInputValue}
+                        />
+                        <InputText       label="(R$) Preço" type={'number'} name='price' value={item.dataForm.price || ''} onChange={item.setInputValue}  />
+                        <InputTextArea   label="Descrição" name='description' value={item.dataForm.description || ''}  onChange={item.setInputValue} />
+                    </div>
+                    <div className="w-full md:w-2/5 flex flex-col justify-center items-center gap-6">
+                        {item.dataForm?.imgUrl ? (
+                            <img src={item.dataForm.imgUrl}  className="w-[200px] h-[200px] rounded-full object-cover object-cente"/>
+                        
+                        ) : (
+                            <div className="bg-slate-200 rounded-full p-8 text-sky-900">
+                                <ImagePlus size={80} />
+                            </div>
+                        )}
+                        <div className="w-full">
+                            <InputText label="URL da Imagem:" name="imgUrl" value={item.dataForm.imgUrl || ''} onChange={item.setInputValue}  />
+                        </div>
+                    </div>
+                </div>
             </Modal>
             
             <CardSection title="Lista de Produtos">
-                <div className="grid grid-cols-4 py-3 px-2 border-b font-semibold uppercase text-sm">
-                    <div className="col-span-3 grid grid-cols-2">
-                        <div>Produtos</div>
-                        <div className="hidden md:block">Categoria</div>
-                    </div>
-                    <div className="text-center">Ações</div>
-                </div>
-                {
-                    produtostems.map((item) => ( 
-                        <div className="grid grid-cols-4 py-3 px-2 items-center border-b hover:bg-slate-100 hover:text-black ">
-                            <div className="col-span-3 flex flex-col md:grid md:grid-cols-2">
-                                <div>{item.name}</div>
-                                <div>{item.category}</div>
-                            </div>
-                            <div className="flex flex-col justify-center items-center md:flex-row gap-2">
-                                {
-                                    <ButtonsActionForList
-                                        trashAction={()=>console.log('delete')}
-                                        editAction={()=>console.log('editar')}
-                                    />
-                                }
-                            </div>
-                        </div>
-                    ))
-                }
+                <ProductList 
+                    data={data.products} 
+                    dataCategory={categoryData.categories} 
+                    isLoading={actionList.isLoading} 
+                    editAction={action.editItem} 
+                    deleteAction={actionDelete} />
             </CardSection>
 
         </>

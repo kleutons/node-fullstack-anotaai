@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { ReactNode, useEffect } from "react"
 import BgTranspatent from "./BgTranspatent"
 import ButtonSecondary from "./dashboard/ButtonSecondary"
 import ButtonPrimay from "./dashboard/ButtonPrimay"
@@ -18,16 +18,28 @@ export default function Modal({title, isShow, isLoading, toggleModal, children, 
 
     const newTitle = title ? title : "Cadastrar";
 
+    useEffect(() => {
+        if (isShow) {
+          document.body.style.overflow = "hidden";
+        } else {
+          document.body.style.overflow = "auto";
+        }
+    
+        return () => {
+          document.body.style.overflow = "auto";
+        };
+      }, [isShow]);
+
     return (
         <> 
             <BgTranspatent isShow={isShow} actionClick={toggleModal} />
             <div data-show={isShow} 
-            className="bg-white z-50 rounded-md p-4  min-w-[87%] md:min-w-[65%] data-[show=false]:hidden data-[show=true]:absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"> 
-                <div className="pb-4 border-b font-semibold text-2xl">{newTitle}</div>
-                <div className="py-6">                    
+            className="bg-white z-50 rounded-md min-w-[92%] md:min-w-[87%] lg:min-w-[65%] max-h-[85vh] data-[show=false]:hidden data-[show=true]:absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col"> 
+                <div className="ml-4 mr-4 pt-4 pb-4 border-b font-semibold text-2xl">{newTitle}</div>
+                <div className="p-4 md:p-6 flex-1 overflow-auto">                    
                     {children}
                 </div>
-                <div className="flex flex-col md:flex-row items-center justify-around gap-3 pt-4 border-t">
+                <div className="flex flex-row items-center justify-around gap-3 ml-4 mr-4 pt-4 pb-4 border-t">
                     <div className="w-full md:w-2/3 max-w-80 md:max-w-40">
                         <ButtonSecondary text="Sair" onClick={toggleModal} />
                     </div>
