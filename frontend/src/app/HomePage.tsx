@@ -33,7 +33,7 @@ export default function HomePage() {
             <TitlePage text="Página Inicial" />
 
             <section className="flex flex-col gap-8 py-10 w-full text-slate-600">
-                <div className="flex flex-col md:flex-row gap-4 max-w-full lg:max-w-[80%]">
+                <div className="flex flex-col md:flex-row gap-4 max-w-full lg:max-w-[85%]">
                     
                     <CardHome>
                         <div>
@@ -57,7 +57,7 @@ export default function HomePage() {
                   
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-4 max-w-full lg:max-w-[80%] ">
+                <div className="flex flex-col md:flex-row gap-4 max-w-full lg:max-w-[85%] ">
                     
                     <CardHome type='secondary'>
                         <h3 className="text-6xl font-bold">{total.categories}</h3>
@@ -78,7 +78,7 @@ export default function HomePage() {
                     </CardHome>
                    
                 </div>
-                <Link to={"/catalog"} className='transition-transform transform hover:scale-105'>
+                <Link to={"/catalog"} className='transition-transform transform hover:scale-105  lg:max-w-[85%]'>
                     <CardHome type='primary'>
                         <div className='flex-1'>
                             <span>Acessar:</span>
@@ -92,8 +92,8 @@ export default function HomePage() {
 
 
                 <div className="flex flex-col md:flex-row gap-4 max-w-full lg:max-w-[50%] ">
-                    <ButtonPrimay text='Adicionar Categoria' link='/category' />
-                    <ButtonPrimay text='Adicionar Produto' link='/product' />
+                    <ButtonPrimay link='/category' >Adicionar Categoria</ButtonPrimay>
+                    <ButtonPrimay link='/product'>Adicionar Produto</ButtonPrimay>
                 </div>
             </section>
         </>

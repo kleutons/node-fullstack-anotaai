@@ -9,7 +9,9 @@ interface iProps{
 export default function ButtonAddListItem({text, actionBtn}:iProps){
     return (
         <div className="w-full md:max-w-40">
-            <ButtonPrimay text={text} onClick={actionBtn} />
+            <ButtonPrimay onClick={actionBtn} >
+                {text}
+            </ButtonPrimay>
         </div>
     )
 }

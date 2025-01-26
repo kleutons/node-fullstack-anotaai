@@ -15,7 +15,7 @@ export default function NotFoundPage(){
 
                 
                 <NavLink to="/">
-                    <ButtonPrimay text="Voltar para Página Inicial" />
+                    <ButtonPrimay>Voltar para Página Inicial</ButtonPrimay>
                 </NavLink>
             </div>
         </div>

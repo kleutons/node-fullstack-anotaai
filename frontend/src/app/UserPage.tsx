@@ -59,7 +59,7 @@ export default function UserPage() {
                         <Link to={'/login'} className="w-full" >
                             <ButtonSecondary text="Sair" />
                         </Link>
-                        <ButtonPrimay type="submit" text="Salvar" />
+                        <ButtonPrimay type="submit">Salvar</ButtonPrimay>
                     </div>
                 </form>
             </CardSection>

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 export default function LoginPage(){
 
     const { isAuthenticated, login, logout, loading, error } = useAuth();
+    const [showPass, setShowPass] = useState(false);
     const navigate = useNavigate();
     const [hasLoggedOut, setHasLoggedOut] = useState(false);
 
@@ -44,10 +45,10 @@ export default function LoginPage(){
                 <hr className="mb-5" />
 
                 <InputText label="Email" name="email" required />
-                <InputText label="Senha" name="password" required />
-                <InputCheckbox label="Mostrar Senha" />
+                <InputText type={showPass ? 'text' : 'password'} label="Senha" name="password" required />
+                <InputCheckbox label="Mostrar Senha" checked={showPass} onChange={() => setShowPass(!showPass)}  />
                 
-                <ButtonPrimay type="submit" text="ENTRAR" />
+                <ButtonPrimay type="submit">ENTRAR</ButtonPrimay>
                 {error && (
                     <div className="text-red-400">{error}</div>
                 )}

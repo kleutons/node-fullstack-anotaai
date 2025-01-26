@@ -8,7 +8,9 @@ export default function TestPage() {
         <>
             <TitlePage text="Test Page" />
             
-            <ButtonPrimay text="Execultar GET" /> 
+            <ButtonPrimay>
+                Execultar GET
+            </ButtonPrimay>
         </>
     )
 }
