@@ -1,13 +1,8 @@
-export interface CategoryType{
-    id: string,
+export interface CategoryInputType{
     title: string,
-    ownerId: string,
+    ownerId?: string
     description: string
 }
-
-export interface CategoryDataInput{
-    id?: string,
-    title: string,
-    ownerId?: string,
-    description: string
+export interface CategoryFullType extends CategoryInputType{
+    id: string
 }

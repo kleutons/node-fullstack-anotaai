@@ -2,17 +2,19 @@ import { ReactNode } from "react"
 import BgTranspatent from "./BgTranspatent"
 import ButtonSecondary from "./dashboard/ButtonSecondary"
 import ButtonPrimay from "./dashboard/ButtonPrimay"
+import Spinner from "./dashboard/Spinner"
 
 
 interface iProps{
     title?: string,
     isShow: boolean,
+    isLoading?: boolean,
     toggleModal: () => void,
     children : ReactNode
     submitAction?: () => void;
 }
 
-export default function Modal({title, isShow, toggleModal, children, submitAction}:iProps){
+export default function Modal({title, isShow, isLoading, toggleModal, children, submitAction}:iProps){
 
     const newTitle = title ? title : "Cadastrar";
 
@@ -20,7 +22,7 @@ export default function Modal({title, isShow, toggleModal, children, submitActio
         <> 
             <BgTranspatent isShow={isShow} actionClick={toggleModal} />
             <div data-show={isShow} 
-            className="bg-white z-50 rounded-md p-4  min-w-[87%] md:min-w-[70%] data-[show=false]:hidden data-[show=true]:absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"> 
+            className="bg-white z-50 rounded-md p-4  min-w-[87%] md:min-w-[65%] data-[show=false]:hidden data-[show=true]:absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2"> 
                 <div className="pb-4 border-b font-semibold text-2xl">{newTitle}</div>
                 <div className="py-6">                    
                     {children}
@@ -30,7 +32,10 @@ export default function Modal({title, isShow, toggleModal, children, submitActio
                         <ButtonSecondary text="Sair" onClick={toggleModal} />
                     </div>
                     <div className="w-full max-w-80">
-                        <ButtonPrimay text="Salvar" onClick={submitAction} />
+                        <ButtonPrimay onClick={submitAction} disabled={isLoading} >
+                            {isLoading && <Spinner />}
+                            Salvar
+                        </ButtonPrimay>
                     </div>
                 </div>
             </div>
