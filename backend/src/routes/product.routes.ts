@@ -6,12 +6,8 @@ import AuthController from "../controllers/auth.controller";
 const  routesProduct = Router();
 const authController = new AuthController();
 
-routesProduct.get(ROUTERS.PRODUCT, authController.verifyToken, authController.isAdmin, async (req:Request, res:Response) => {
-    new ProductController().listAll(req,res);
-});
-
-routesProduct.get(ROUTERS.PRODUCT+"/:ownerId", authController.verifyToken, async (req:Request, res:Response) => {
-    new ProductController().listByOwnerAndCategoryId(req,res);
+routesProduct.get(ROUTERS.PRODUCT, authController.verifyToken, async (req:Request, res:Response) => {
+    new ProductController().listByOwnerId(req,res);
 });
 
 

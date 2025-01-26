@@ -35,11 +35,11 @@ export class CategoryController{
     }
 
     public async create(req:Request, res:Response){
-        const user = req.body as CategoryCreateModel;
-        user.ownerId = req.user?.id ?? '';
+        const data = req.body as CategoryCreateModel;
+        data.ownerId = req.user?.id ?? '';
 
         try{    
-            const result = await this.service.create(user);
+            const result = await this.service.create(data);
             res.status(201).json(result);
         }catch(err){
             if(err instanceof HttpError)
@@ -51,12 +51,12 @@ export class CategoryController{
 
 
     public async update(req:Request, res:Response){
-        const user = req.body as CategoryCreateModel;
-        user.ownerId = req.user?.id ?? '';
+        const data = req.body as CategoryCreateModel;
+        data.ownerId = req.user?.id ?? '';
         const {id} = req.params;
 
         try{
-            const result = await this.service.update(id, user);
+            const result = await this.service.update(id, data);
             res.status(200).json(result);
         }catch(err){
             if(err instanceof HttpError)

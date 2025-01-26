@@ -1,29 +1,29 @@
 [
   {
     "id": "678992a23e4b860bbeef5c8c",
-    "title": "Suco",
+    "title": "Suco de Frutas Vermelhas",
     "ownerId": "6774381f75d014608705b065",
     "categoryId": "6787d1830899ce5dd0bc73db",
     "price": 7.99,
-    "description": "Suco de Frutas",
-    "imgUrl": "https://exemple.com/img.jpg"
+    "description": "Mix Suco de Frutas Vermelhas!",
+    "imgUrl": "https://www.cocolegal.com.br/wp-content/uploads/2020/08/frutas-vermelhas-ideais-para-ativar-o-metabolismo-1.jpg"
   },
   {
     "id": "678993a43e4b860bbeef5c8d",
     "title": "Pizza de Queijo",
     "ownerId": "6774381f75d014608705b065",
     "categoryId": "6789902e3e4b860bbeef5c8a",
-    "price": 17.59,
+    "price": 17.9,
     "description": "Tam. P",
-    "imgUrl": "https://exemple.com/img.jpg"
+    "imgUrl": "https://alimentos10.com.br/wp-content/uploads/2023/06/imeretian-khachapuri-cheese-lemon-side-view-1.jpg"
   },
   {
     "id": "67880875f7155eb88d66ced2",
-    "title": "Cocacola",
+    "title": "Coca-Cola",
     "ownerId": "6774381f75d014608705b065",
     "categoryId": "6787d1830899ce5dd0bc73db",
     "price": 6.8,
     "description": "Em Lata",
-    "imgUrl": "https://exemple.com/img.jpg"
+    "imgUrl": "https://andinacocacola.vtexassets.com/arquivos/ids/158606/SKUs-Ecommerce--1000-x-1000-px---8-.jpg?v=638705724669430000"
   }
 ]

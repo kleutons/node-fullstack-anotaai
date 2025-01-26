@@ -21,28 +21,29 @@ export class ProductController{
         }
     }
 
-    public async listByOwnerAndCategoryId(req:Request, res:Response){
-        const { ownerId } = req.params;
-        let categoryId = req.query.category;
-
-        if(Array.isArray(categoryId)) { categoryId = categoryId[0]; }
-        if(typeof categoryId !== 'string') { categoryId = undefined; }
-
-        try{
-            const result = await this.service.listByOwnerAndCategoryId(ownerId, categoryId);
-            res.status(200).json(result);    
-        }catch(err){
-            if(err instanceof HttpError)
-                return res.status(err.statusCode).json({error: err.message})
-            res.status(500).json({error:'Failed to list' }) 
+    public async listByOwnerId(req:Request, res:Response){
+        if(req.user !== undefined){
+            const ownerId = req.user?.id ?? '';
+            try{
+                const result = await this.service.listByOwnerAndCategoryId(ownerId);
+                res.status(200).json(result);    
+            }catch(err){
+                if(err instanceof HttpError)
+                    return res.status(err.statusCode).json({error: err.message})
+                res.status(500).json({error:'Failed to list' }) 
+            }
+        }else{
+            res.status(500).json({error:'Invalid ownerId!' }) 
         }
+        
     }
 
     public async create(req:Request, res:Response){
-        const user = req.body as ProductCreateModel;
+        const data = req.body as ProductCreateModel;
+        data.ownerId = req.user?.id ?? '';
 
         try{    
-            const result = await this.service.create(user);
+            const result = await this.service.create(data);
             res.status(201).json(result);
         }catch(err){
             
@@ -58,11 +59,12 @@ export class ProductController{
 
 
     public async update(req:Request, res:Response){
-        const user = req.body as ProductCreateModel;
+        const data = req.body as ProductCreateModel;
+        data.ownerId = req.user?.id ?? '';
         const {id} = req.params;
 
         try{
-            const result = await this.service.update(id, user);
+            const result = await this.service.update(id, data);
             res.status(200).json(result);
         }catch(err){
             if(err instanceof HttpError)
