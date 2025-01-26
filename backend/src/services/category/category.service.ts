@@ -30,8 +30,10 @@ export class CategoryrService{
             const result = await this.repository.findMany({
                 where:{
                     ownerId
+                },
+                orderBy:{
+                    id: 'desc'
                 }
-                
             });
             return result;
     }
@@ -76,7 +78,7 @@ export class CategoryrService{
 
 
     async update(id:string, data: Partial<CategoryCreateModel>){
-        await categoryValidate(data, true);
+        await categoryValidate(data);
 
         const dataToUpdate: Partial<CategoryCreateModel> = {};
 

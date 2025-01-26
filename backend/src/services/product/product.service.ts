@@ -39,7 +39,10 @@ export class ProductService{
         }
 
         const result = await this.repository.findMany({
-            where: whereClause
+            where: whereClause,
+            orderBy:{
+                id: 'desc'
+            }
         });
         return result;
     }
