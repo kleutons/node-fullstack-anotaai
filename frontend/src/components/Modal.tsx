@@ -11,7 +11,7 @@ interface iProps{
     isLoading?: boolean,
     toggleModal: () => void,
     children : ReactNode
-    submitAction?: () => void;
+    submitAction?: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export default function Modal({title, isShow, isLoading, toggleModal, children, submitAction}:iProps){
@@ -33,8 +33,11 @@ export default function Modal({title, isShow, isLoading, toggleModal, children, 
     return (
         <> 
             <BgTranspatent isShow={isShow} actionClick={toggleModal} />
-            <div data-show={isShow} 
-            className="bg-white z-50 rounded-md min-w-[92%] md:min-w-[87%] lg:min-w-[65%] max-h-[85vh] data-[show=false]:hidden data-[show=true]:absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col"> 
+            <form 
+                data-show={isShow} 
+                onSubmit={submitAction}                
+                className="bg-white z-50 rounded-md min-w-[92%] md:min-w-[87%] lg:min-w-[65%] max-h-[85vh] data-[show=false]:hidden data-[show=true]:absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col"
+            > 
                 <div className="ml-4 mr-4 pt-4 pb-4 border-b font-semibold text-2xl">{newTitle}</div>
                 <div className="p-4 md:p-6 flex-1 overflow-auto">                    
                     {children}
@@ -44,13 +47,13 @@ export default function Modal({title, isShow, isLoading, toggleModal, children, 
                         <ButtonSecondary text="Sair" onClick={toggleModal} />
                     </div>
                     <div className="w-full max-w-80">
-                        <ButtonPrimay onClick={submitAction} disabled={isLoading} >
+                        <ButtonPrimay type='submit'disabled={isLoading} >
                             {isLoading && <Spinner />}
                             Salvar
                         </ButtonPrimay>
                     </div>
                 </div>
-            </div>
+            </form>
         </>
     )
 }

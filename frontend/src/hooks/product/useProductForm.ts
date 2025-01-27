@@ -46,7 +46,9 @@ export const useProductForm = (addOrUpdateItemList: (category: ProductFullType, 
     };
 
     // Função para Eviar as alterações da categoria
-    const submitItem = async () => {
+    const submitItem = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
         setILoading(true); //Carregando
 
         if (dataForm && !isProductFullType(dataForm)) {

@@ -8,7 +8,7 @@ interface ButtonPrimaryProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 export default function ButtonPrimay({children, link, ...props}:ButtonPrimaryProps){
     if (!props.type)
-        props.type = 'button';
+        props.type = 'button'; 
 
     const navigate = useNavigate();
     const handleClick = () => {

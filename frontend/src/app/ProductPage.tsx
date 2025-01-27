@@ -49,16 +49,17 @@ export default function ProductPage() {
             >   
                 <div className="flex flex-col md:flex-row gap-8 w-full mb-6">
                     <div className="flex-1">
-                        <InputText       label="Nome do Produto" name='title' value={item.dataForm.title || ''} onChange={item.setInputValue}  />
+                        <InputText       label="Nome do Produto" name='title' value={item.dataForm.title || ''} onChange={item.setInputValue} required  />
                         <Select 
                             label="Categoria" 
                             name='categoryId'
                             options={categoryData.categories.map(category => ({ id: category.id, title: category.title }))}
                             value={item.dataForm.categoryId || ''} 
                             onChange={item.setInputValue}
+                            required
                         />
-                        <InputText       label="(R$) Preço" type={'number'} name='price' value={item.dataForm.price || ''} onChange={item.setInputValue}  />
-                        <InputTextArea   label="Descrição" name='description' value={item.dataForm.description || ''}  onChange={item.setInputValue} />
+                        <InputText       label="(R$) Preço" type={'number'} name='price' value={item.dataForm.price || ''} onChange={item.setInputValue} required />
+                        <InputTextArea   label="Descrição" name='description' value={item.dataForm.description || ''}  onChange={item.setInputValue} required />
                     </div>
                     <div className="w-full md:w-2/5 flex flex-col justify-center items-center gap-6">
                         {item.dataForm?.imgUrl ? (

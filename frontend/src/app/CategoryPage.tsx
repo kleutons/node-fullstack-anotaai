@@ -42,12 +42,12 @@ export default function CategoryPage(){
           toggleModal={modal.toggleModal}
           submitAction={action.submitItem}
         >
-          <InputText       label="Título da Categoria" name='title' value={item.dataForm.title || ''} onChange={item.setInputValue} />
-          <InputTextArea   label="Descrição" name='description' value={item.dataForm.description || ''}  onChange={item.setInputValue}/>
+          <InputText       label="Título da Categoria" name='title' value={item.dataForm.title || ''} onChange={item.setInputValue} required />
+          <InputTextArea   label="Descrição" name='description' value={item.dataForm.description || ''}  onChange={item.setInputValue} required/>
       </Modal>
   
       <section className="mt-6 gap-4 flex flex-col">
-          <CategoryList data={data.categories} isLoading={actionList.isLoading} editAction={action.editItem} deleteAction={actionDelete}  />
+          <CategoryList  data={data.categories} isLoading={actionList.isLoading} editAction={action.editItem} deleteAction={actionDelete}  />
       </section>
 </>
   )
