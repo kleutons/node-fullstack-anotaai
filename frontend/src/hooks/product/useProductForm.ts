@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ProductFullType, ProductInputType } from "../../types/ProdutctType";
 import isProductFullType from "../../utils/isProductFullType";
-import ProductService from "../../services/ProductService";
+import { useProductService } from "./useProductService ";
 
 
 // Hook para editar categorias
@@ -11,6 +11,9 @@ export const useProductForm = (addOrUpdateItemList: (category: ProductFullType, 
     const [dataForm, setDataForm]   = useState<ProductInputType | ProductFullType>(emptyData);
     const [showModal, setShowModal] = useState(false);
     const [isLoading, setILoading]  = useState(false);
+
+    // Chamar instância do serviço
+    const productService = useProductService();
 
     // Função para iniciar a edição de uma categoria específica
     const editItem = (item: ProductFullType) => {
@@ -47,14 +50,14 @@ export const useProductForm = (addOrUpdateItemList: (category: ProductFullType, 
         setILoading(true); //Carregando
 
         if (dataForm && !isProductFullType(dataForm)) {
-            const newCategory = await ProductService.create(dataForm);
+            const newCategory = await productService.create(dataForm);
             if(newCategory){
                 addOrUpdateItemList(newCategory);
                 toggleModal(); 
             }
         }else
         if(dataForm && isProductFullType(dataForm)){
-            const  newCategory = await ProductService.update(dataForm);
+            const  newCategory = await productService.update(dataForm);
             if(newCategory){
                 addOrUpdateItemList(newCategory);
                 toggleModal(); 

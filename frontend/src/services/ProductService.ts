@@ -1,17 +1,18 @@
 import { AxiosInstance } from "axios";
-
+import { ProductFullType, ProductInputType } from "../types/ProdutctType";
 import axiosInstance from "../utils/AxiosInstance";
 import ApiResponse from "../utils/ApiResponse";
-import { ProductFullType, ProductInputType } from "../types/ProdutctType";
 
 
 class ProductService {
     private api: AxiosInstance;
     private categoryUrl: string;
+    private token: string;
 
-    constructor() {
+    constructor(token: string) {
         this.api = axiosInstance;
-        this.api.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+        this.token = token;
+        this.api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
         this.categoryUrl = '/product';
     }
 
@@ -59,4 +60,4 @@ class ProductService {
     }
 }
 
-export default new ProductService();
+export default ProductService;

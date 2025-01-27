@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
-
-import ProductService from "../../services/ProductService";
+import { useProductService } from "./useProductService ";
 import { ProductFullType } from "../../types/ProdutctType";
+
 
 // Hook para listar Produtos
 export const useProductList = () => {
@@ -11,15 +11,18 @@ export const useProductList = () => {
     const [dbProducts, setDbProducts]   = useState<ProductFullType[]>([]); 
     const [isLoading, setILoading]  = useState(false);
 
-
+    // Chamar instância do serviço
+    const productService = useProductService();
+    
     // Função para buscar produtos da API
     const getProducts = useCallback(async () => {
         setILoading(true);
-            const data = await ProductService.get();
+            const data = await productService.get();
             setProducts(data);
             setDbProducts(data);
         setILoading(false)
-    }, []);
+    }, [productService]);
+
 
     useEffect(() => {
         getProducts();
