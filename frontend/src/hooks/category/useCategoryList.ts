@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { CategoryFullType } from "../../types/CategoryType";
-import CategoryService from "../../services/CategoryService";
+import { useCategoryService } from "./useCategoryService ";
 
 // Hook para listar categorias
 export const useCategoryList = () => {
@@ -9,16 +9,18 @@ export const useCategoryList = () => {
     // Armazena a lista original da Base de dados   
     const [dbCategories, setDbCategories]   = useState<CategoryFullType[]>([]); 
     const [isLoading, setILoading]  = useState(false);
-
-
+    
+    // Chamae instância do serviço
+    const categoryService = useCategoryService();
+    
     // Função para buscar categorias da API
     const getCategories = useCallback(async () => {
         setILoading(true);
-            const data = await CategoryService.getCategories();
+            const data = await categoryService.getCategories();
             setCategories(data);
             setDbCategories(data);
         setILoading(false)
-    }, []);
+    }, [categoryService]);
 
     useEffect(() => {
         getCategories();

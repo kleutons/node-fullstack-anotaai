@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { CategoryFullType, CategoryInputType } from "../../types/CategoryType";
-import CategoryService from "../../services/CategoryService";
+
 import isCategoryFullType from "../../utils/isCategoryFullType";
+import { useCategoryService } from "./useCategoryService ";
 
 
 // Hook para editar categorias
@@ -12,6 +13,9 @@ export const useCategoryForm = (addOrUpdateItemList: (category: CategoryFullType
     const [indexData, setIndexData] = useState<number>(-1); 
     const [showModal, setShowModal] = useState(false);
     const [isLoading, setILoading]  = useState(false);
+    
+    // Chamar instância do serviço
+    const categoryService = useCategoryService();
 
     // Função para iniciar a edição de uma categoria específica
     const editItem = (item: CategoryFullType, index:number) => {
@@ -46,14 +50,14 @@ export const useCategoryForm = (addOrUpdateItemList: (category: CategoryFullType
         setILoading(true); //Carregando
 
         if (dataForm && !isCategoryFullType(dataForm)) {
-            const newCategory = await CategoryService.createCategory(dataForm);
+            const newCategory = await categoryService.createCategory(dataForm);
             if(newCategory){
                 addOrUpdateItemList(newCategory);
                 toggleModal(); 
             }
         }else
         if(dataForm && isCategoryFullType(dataForm)){
-            const  newCategory = await CategoryService.updateCategory(dataForm);
+            const  newCategory = await categoryService.updateCategory(dataForm);
             if(newCategory){
                 addOrUpdateItemList(newCategory, indexData);
                 toggleModal(); 

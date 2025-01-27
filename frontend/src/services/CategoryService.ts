@@ -7,10 +7,12 @@ import ApiResponse from "../utils/ApiResponse";
 class CategoryService {
     private api: AxiosInstance;
     private categoryUrl: string;
+    private token: string;
 
-    constructor() {
+    constructor(token: string) {
         this.api = axiosInstance;
-        this.api.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+        this.token = token;
+        this.api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
         this.categoryUrl = '/category';
     }
 
@@ -58,4 +60,4 @@ class CategoryService {
     }
 }
 
-export default new CategoryService();
+export default CategoryService;
