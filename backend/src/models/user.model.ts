@@ -25,5 +25,6 @@ export interface UserDataReturn{
     storeId       :string,
     email         :string,
     role          :UserRole
+    status        :boolean
     imgUrl?       :string
 }

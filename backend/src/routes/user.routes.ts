@@ -11,11 +11,11 @@ routesUser.get(ROUTERS.USER, authController.verifyToken, authController.isAdmin,
     new UserController().listAll(req,res);
 });
 
-routesUser.post(ROUTERS.USER, authController.verifyToken, async (req:Request, res:Response) => {
+routesUser.post(ROUTERS.USER, authController.verifyToken, authController.isAdmin, async (req:Request, res:Response) => {
     new UserController().create(req,res);
 });
 
-routesUser.put(ROUTERS.USER+"/:id", authController.verifyToken, authController.ValidateGetIdUserToken, async (req:Request, res:Response) => {
+routesUser.put(ROUTERS.USER+"/:id", authController.verifyToken, authController.isAdmin, authController.ValidateGetIdUserToken, async (req:Request, res:Response) => {
     new UserController().update(req,res);
 });
 

@@ -47,7 +47,9 @@ export default class AuthController {
                 name: user.name,
                 storeId: user.storeId,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                status: user.status,
+                imgUrl: user.imgUrl ?? undefined
             };
 
             if(user.imgUrl){
