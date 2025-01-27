@@ -25,14 +25,15 @@ export function AuthProvider( {children}:AuthProviderProps ){
     const saveLocalStorage = (data: LocalDataUser) => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('loginTime', new Date().toISOString());
     }
 
     const removeLocalStorage = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('loginTime');
     };
 
-   
 
     const login = async (email: string, password: string) => {
         setLoading(true);
@@ -56,10 +57,30 @@ export function AuthProvider( {children}:AuthProviderProps ){
     }
 
     const logout = () => { 
-        setIsAuthenticated(false); 
+        setIsAuthenticated(false);
         removeLocalStorage();
     }
-
+    
+    const getLoginDuration = () => {
+        const loginTimeString = localStorage.getItem('loginTime');
+        if(!loginTimeString) return null;
+    
+        const loginTimeDate = new Date(loginTimeString);
+        const now = new Date();
+    
+        const diffMs = now.getTime() - loginTimeDate.getTime();
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMins / 60);
+        
+        if (diffHours > 0) {
+            return `há ${diffHours} hora${diffHours > 1 ? 's' : ''}`;
+        }
+        if (diffMins === 0) {
+            return "agora";
+        }
+        return `há ${diffMins} minuto${diffMins > 1 ? 's' : ''}`;
+    }
+    
 
     return(
         <AuthContext.Provider 
@@ -70,7 +91,8 @@ export function AuthProvider( {children}:AuthProviderProps ){
                 login,
                 logout,
                 loading,
-                error
+                error,
+                getLoginDuration
             }}
         >
             {children}

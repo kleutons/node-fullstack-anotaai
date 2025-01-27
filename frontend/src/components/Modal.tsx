@@ -44,7 +44,7 @@ export default function Modal({title, isShow, isLoading, toggleModal, children, 
                 </div>
                 <div className="flex flex-row items-center justify-around gap-3 ml-4 mr-4 pt-4 pb-4 border-t">
                     <div className="w-full md:w-2/3 max-w-80 md:max-w-40">
-                        <ButtonSecondary text="Sair" onClick={toggleModal} />
+                        <ButtonSecondary onClick={toggleModal}> Fechar </ButtonSecondary>
                     </div>
                     <div className="w-full max-w-80">
                         <ButtonPrimay type='submit'disabled={isLoading} >

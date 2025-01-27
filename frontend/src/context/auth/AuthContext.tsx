@@ -8,7 +8,8 @@ export interface AuthContextType{
     login: (email: string, password: string) => void; 
     logout: () => void;
     loading: boolean;
-    error: string | null
+    error: string | null;
+    getLoginDuration: () => string | null
 }
 
 export const AuthContext = createContext<AuthContextType | undefined>(undefined);

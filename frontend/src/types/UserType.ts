@@ -3,6 +3,7 @@ export default interface UserType{
     name          :string,
     storeId       :string,
     email         :string,
-    role          :string
+    role          :string,
+    status        :boolean,
     imgUrl?       :string
 }

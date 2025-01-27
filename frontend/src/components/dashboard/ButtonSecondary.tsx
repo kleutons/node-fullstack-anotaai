@@ -1,19 +1,19 @@
-import React from "react"
+import React, { ReactNode } from "react"
 
 interface ButtonSecondaryProps extends  React.ButtonHTMLAttributes<HTMLButtonElement>{
-    text: string
+    children: ReactNode
 }
 
-export default function ButtonSecondary({text, ...props}:ButtonSecondaryProps){
+export default function ButtonSecondary({children, ...props}:ButtonSecondaryProps){
     if (!props.type)
         props.type = 'button'; 
     
     return (    
         <button 
-            className="w-full py-2 px-4 bg-gray-400 text-white rounded-lg hover:bg-gray-700 transition-transform transform hover:scale-105"
+            className="w-full py-2 px-4 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-transform transform hover:scale-105"
             {...props}
         >
-            {text}
+            {children}
         </button>
     )
 }
