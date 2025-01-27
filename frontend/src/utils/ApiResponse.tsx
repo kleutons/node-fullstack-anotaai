@@ -29,7 +29,13 @@ class ApiResponse{
         } else {
             errorMessage = 'Ocorreu um erro desconhecido';
         }
-    
+        
+        if (errorMessage.includes('Invalid Token')) {
+            setTimeout(() => {
+                window.location.href = "/login";
+            }, 2000);
+        }
+
         toast.error(errorMessage)
     }
 
