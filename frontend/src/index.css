@@ -6,6 +6,6 @@ body {
     @apply font-sans;
 }
   
-input:focus-visible {
+input:focus-visible, textarea:focus-visible, div:focus-visible {
     outline: none;
 }

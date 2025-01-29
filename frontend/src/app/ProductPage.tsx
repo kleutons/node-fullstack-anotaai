@@ -16,6 +16,7 @@ import isProductFullType from "../utils/isProductFullType";
 import { useProductDelete } from "../hooks/product/useProductDelete";
 import { useCategoryList } from "../hooks/category/useCategoryList";
 import { ImagePlus } from "lucide-react";
+import FilterSelectData from "../types/SelectData";
 
 
 export default function ProductPage() {
@@ -27,6 +28,8 @@ export default function ProductPage() {
     
     const titleModal = !isProductFullType(item.dataForm)  ? "Cadastrar Produto" : "Editar Produto";
     
+    const CategoryData:FilterSelectData[] = categoryData.categories.map((item) => ({id: item.id, text: item.title}));
+
     return (
         <>
             <div><Toaster/></div>
@@ -34,7 +37,7 @@ export default function ProductPage() {
 
             <HeaderList>
                 <FilterSearch onSearch={data.searchProduct} />
-                <FilterSelect categories={categoryData.categories} onFilter={data.filterByCategory}  /> 
+                <FilterSelect label="Categoria" options={CategoryData} onFilter={data.filterByCategory}  /> 
                 <ButtonAddListItem 
                     text="Novo Produto" 
                     actionBtn={modal.toggleModal} />
@@ -53,7 +56,7 @@ export default function ProductPage() {
                         <Select 
                             label="Categoria" 
                             name='categoryId'
-                            options={categoryData.categories.map(category => ({ id: category.id, title: category.title }))}
+                            options={CategoryData}
                             value={item.dataForm.categoryId || ''} 
                             onChange={item.setInputValue}
                             required

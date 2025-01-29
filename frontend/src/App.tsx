@@ -3,12 +3,13 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import HomePage from "./app/HomePage";
 import LoginPage from "./app/LoginPage";
 import NotFoundPage from "./app/NotFoundPage";
-import UserPage from "./app/UserPage";
+import ProfilePage from "./app/ProfilePage";
 import CategoryPage from "./app/CategoryPage";
 import ProductPage from "./app/ProductPage";
 import DevPage from "./app/DevPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TestPage from "./app/TestPage";
+import UserListPage from "./app/UserListPage";
 
 function App() {
   return (
@@ -18,12 +19,12 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<HomePage />} />
-          <Route path="/user"         element={<ProtectedRoute element={<UserPage />} />} />
+          <Route path="/profile"         element={<ProtectedRoute element={<ProfilePage />} />} />
+          <Route path="/user-list"    element={<ProtectedRoute element={<UserListPage />} />} />
           <Route path="/category"     element={<ProtectedRoute element={<CategoryPage />} />} />
           <Route path="/product"      element={<ProtectedRoute element={<ProductPage />} />} />
           <Route path="/dev"          element={<DevPage />} />
-          <Route path="/test"        element={<TestPage />} />
-  
+          <Route path="/test"         element={<TestPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

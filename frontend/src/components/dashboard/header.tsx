@@ -15,7 +15,7 @@ export default function Header({toggleSidebar}:HeaderProps){
             </Link>
 
           <Link
-                to={'/user'}
+                to={'/profile'}
                 className="flex items-center justify-center w-10 h-10 bg-blue-500 rounded-md text-white p-2"                
             >
                 <User />

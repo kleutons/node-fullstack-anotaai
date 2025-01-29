@@ -1,6 +1,8 @@
+import SelectData from "../../types/SelectData";
+
 interface SelectProps extends React.InputHTMLAttributes<HTMLSelectElement> {
   label: string;
-  options: { id: string; title: string }[];
+  options: SelectData[];
 }
 
 export default function Select({ label, options, ...props }: SelectProps) {
@@ -14,7 +16,7 @@ export default function Select({ label, options, ...props }: SelectProps) {
               <option value="">Selecione {label}</option>
               {options.map((option) => (
                   <option key={option.id} value={option.id}>
-                      {option.title}
+                      {option.text}
                   </option>
               ))}
           </select>

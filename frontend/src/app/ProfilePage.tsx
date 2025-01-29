@@ -6,11 +6,9 @@ import useAuth from "../hooks/useAuth";
 import { Link } from "react-router";
 
 
-export default function UserPage() {
+export default function ProfilePage() {
 
     const { user, getLoginDuration } = useAuth();
-
-    
 
     return (
         <>

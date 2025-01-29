@@ -1,9 +1,9 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
-import UserType from "../../types/UserType";
 import axiosInstance from "../../utils/AxiosInstance";
 import { AxiosError, AxiosResponse } from "axios";
 import { ErrorResponse } from "../../types/ErrorResponse";
+import { UserReturnType } from "../../types/UserType";
 
 interface AuthProviderProps{
     children: ReactNode
@@ -11,16 +11,37 @@ interface AuthProviderProps{
 
 interface LocalDataUser{
     token: string,
-    user: UserType
+    user: UserReturnType
 }
 
 export function AuthProvider( {children}:AuthProviderProps ){
     const token = localStorage.getItem('token');
     const userString = localStorage.getItem('user');
-    const user: UserType | null = userString ? JSON.parse(userString) : null;
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(token && user ? true : false);
+    const [user, setUser] = useState<UserReturnType | null>(userString ? JSON.parse(userString) : null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(token && userString ? true : false);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        const handleStorageChange = () => {
+            const storedUser = localStorage.getItem('user');
+            setUser(storedUser ? JSON.parse(storedUser) : null);
+        };
+
+        // Adiciona listener para evento de alteração no storage
+        window.addEventListener('localStorageUpdate', handleStorageChange);
+
+        // Atualiza user no início, caso haja alguma mudança externa
+        handleStorageChange();
+
+        return () => {
+            window.removeEventListener('localStorageUpdate', handleStorageChange);
+        };
+    }, []);
+
+    useEffect(() => {
+        setIsAuthenticated(token && user ? true : false);
+    }, [user, token]);
 
     const saveLocalStorage = (data: LocalDataUser) => {
         localStorage.setItem('token', data.token);
@@ -46,6 +67,7 @@ export function AuthProvider( {children}:AuthProviderProps ){
 
             setIsAuthenticated(true);
             saveLocalStorage(response.data);
+            window.dispatchEvent(new Event('localStorageUpdate'));
         }catch(err){
             const axiosError = err as AxiosError<ErrorResponse>;
             const returnErro = axiosError.response ? `Error: ${axiosError.response.data?.error}` : `Error fetching data: ${err}`;

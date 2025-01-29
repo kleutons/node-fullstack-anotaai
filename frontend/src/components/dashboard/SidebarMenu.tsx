@@ -1,4 +1,4 @@
-import { Archive, Code, Home, Inbox, Tag, User, X } from "lucide-react";
+import { Archive, Code, Home, Inbox, Tag, UsersRound, X, UserRoundCheck, CircleOff } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
 
 interface SidebarMenuProps {
@@ -16,9 +16,14 @@ const menuList = [
         icon: Home,
       },
       {
-        title: "Usuário",
-        url: "/user",
-        icon: User,
+        title: "Meus Dados",
+        url: "/profile",
+        icon: UserRoundCheck ,
+      },
+      {
+        title: "Usuários",
+        url: "/user-list",
+        icon: UsersRound,
       }
     ]
   },
@@ -49,6 +54,11 @@ const menuList = [
         title: "Desenvolvedor",
         url: "/dev",
         icon: Code,
+      },
+      {
+        title: "Page 404",
+        url: "/404",
+        icon: CircleOff,
       }
     ]
   },
