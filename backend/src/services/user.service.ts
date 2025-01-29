@@ -15,12 +15,14 @@ export class UserService{
 
     async listAll(){
         const users = await this.repository.findMany();
-        return users;
+        // Remover Senha do retorno 
+        const returnUsers = users.map(item => ({...item, password: undefined}));
+        return returnUsers;
     }
 
-    private  async validateUser(user:Partial<UserCreateModel>, isUpdate:boolean = false){
-        const requiredFields: Array<keyof UserCreateModel> = !isUpdate ? ["name", "storeId", "email", "password"] : [];
-        
+    private  async validateUser(user:Partial<UserCreateModel>, userId?:string){
+        const requiredFields: Array<keyof UserCreateModel> = !userId ? ["name", "storeId", "email", "password"] : [];
+       
         for(const field of requiredFields){
             if(!user[field]){
                 throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, `Field ${field} is mandatory!`);
@@ -28,15 +30,15 @@ export class UserService{
         }
 
         const storeIdRegex = /^[a-z0-9.-]+$/; 
-        if (!isUpdate && user.storeId && !storeIdRegex.test(user.storeId)) {
+        if (user.storeId && !storeIdRegex.test(user.storeId)) {
             throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Store ID must be lowercase letters, numbers, dots, or hyphens, with no spaces!");
         }
 
-        if(user.storeId && await this.findByStoreIdOrEmail(user.storeId)){
+        if(user.storeId && await this.getTotalByStoreId(user.storeId, userId)){
             throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Store ID already exists!");
         }
 
-        if(user.email && await this.findByStoreIdOrEmail(user.email)){
+        if(user.email && await this.findByEmail(user.email, userId)){
             throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Email already used!");
         }
     }
@@ -50,19 +52,24 @@ export class UserService{
         return await bcrypt.hash(pass, 10);
     }
 
-    private async findByStoreIdOrEmail(value:string):Promise<Boolean>{
-        const lowercasedValue = value.toLowerCase();
+    /**
+     * Função para encontrar um usuário pelo storeId, excluindo o user com o id fornecido.
+     *
+     * @param storeId - O ID da loja a ser buscada.
+     * @param currentUserId - O ID do usuário que está sendo excluído da busca.
+     * @returns O usuário que possui o storeId fornecido, ou null se não encontrado.
+    */
+    private async getTotalByStoreId(storeId:string, currentUserId?: string):Promise<UserModel | null> {
+        const lowercasedValue = storeId.toLowerCase();
+        
+        const whereClause: any = { storeId: lowercasedValue };
+        if (currentUserId) whereClause.NOT = { id: currentUserId };
 
-        const result = await this.repository.findFirst({
-            where:{
-                OR:[
-                    { storeId: lowercasedValue }, 
-                    { email: lowercasedValue }    
-                ]
-            }
+        const result = await this.repository.findUnique({
+            where: whereClause
         });
 
-        return result ? true : false;
+        return result;
     }
 
     private async findById(id:string):Promise<UserModel | null>{
@@ -74,13 +81,24 @@ export class UserService{
         return result;
     }
 
-    public async findByEmail(email:string):Promise<UserModel | null>{
+    /**
+     * Função para encontrar um usuário pelo email, excluindo um usuário com um ID específico.
+     *
+     * @param email - Email do usuário.
+     * @param currentUserId - O ID do usuário que está sendo excluído da busca.
+     * @returns O usuário que possui o email fornecido, excluindo o usuário com o currentId, ou null se não encontrado.
+     */
+    public async findByEmail(email:string, currentUserId?: string):Promise<UserModel | null>{
+        const lowercasedValue = email.toLowerCase();
+
+        const whereClause: any = { email: lowercasedValue };
+        if (currentUserId) whereClause.NOT = { id: currentUserId };
+
         const result = await this.repository.findUnique({
-            where:{
-                email
-            }
-        })
-        return result;
+            where: whereClause
+        });
+
+        return result ;
     }
 
     public async userExists(id:string):Promise<Boolean>{
@@ -102,16 +120,19 @@ export class UserService{
                 name:       user.name,
                 storeId:    user.storeId.toLowerCase(),
                 email:      user.email.toLowerCase(),
-                password:   hashPassword
+                password:   hashPassword,
+                imgUrl:     user.imgUrl 
             }
         })
 
-        return result;
+        // Remover Senha do retorno 
+        const returnUser = {...result, password: undefined};
+        return returnUser;
     }
 
 
     async update(id:string, user: Partial<UserCreateModel>){
-        await this.validateUser(user, true);
+        await this.validateUser(user, id);
 
         const dataToUpdate: Partial<UserCreateModel> = {};
 
@@ -127,6 +148,8 @@ export class UserService{
         if(user.password){
             dataToUpdate.password = await this.validateAndEncryptPassword(user.password);
         }
+        
+        console.log(dataToUpdate);
 
         const result = await this.repository.update({
             where:{
@@ -136,7 +159,9 @@ export class UserService{
             
         })
 
-        return result;
+        // Remover Senha do retorno 
+        const returnUser = {...result, password: undefined};
+        return returnUser;
     }
 
     async delete(id:string){
