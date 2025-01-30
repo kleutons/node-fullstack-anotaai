@@ -20,7 +20,7 @@ class ApiResponse{
         let errorMessage:string;
         if (axios.isAxiosError(err)) {
             if (err.response) {
-                errorMessage = 'API Error: ' + err.response.data.error;
+                errorMessage = 'Error: ' + err.response.data.error;
             } else {
                 errorMessage = 'Error: ' + err.message;
             }

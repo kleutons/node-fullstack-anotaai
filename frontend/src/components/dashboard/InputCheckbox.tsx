@@ -1,21 +1,25 @@
-import React, { ForwardedRef } from 'react';
+import React from 'react';
 
 interface InputTextProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  id: string;
   label: string;
 }
 
-const InputCheckbox = React.forwardRef<HTMLInputElement, InputTextProps>(({ label, ...props }, ref: ForwardedRef<HTMLInputElement>) => {
-
+export default function InputCheckbox({ id, label, ...props }: InputTextProps) {
   return (
-    <div className="mb-4 flex gap-2 ">
+    <div className="flex items-center mb-4">
       <input 
-        ref={ref}
-        type='checkbox'
-        {...props}
+        id={id} 
+        type="checkbox" 
+        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 cursor-pointer"
+        {...props} 
       />
-      <label className="block text-sm font-medium text-slate-700">{label}</label>
+      <label 
+        htmlFor={id} 
+        className="ms-2 text-sm font-medium cursor-pointer select-none"
+      >
+        {label}
+      </label>
     </div>
   );
-});
-
-export default InputCheckbox;
+}

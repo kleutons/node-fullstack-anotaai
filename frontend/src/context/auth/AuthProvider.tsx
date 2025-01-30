@@ -1,9 +1,9 @@
 import { ReactNode, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import axiosInstance from "../../utils/AxiosInstance";
-import { AxiosError, AxiosResponse } from "axios";
-import { ErrorResponse } from "../../types/ErrorResponse";
-import { UserReturnType } from "../../types/UserType";
+import { AxiosResponse } from "axios";
+import { LoginInputType, UserReturnType } from "../../types/UserType";
+import ApiResponse from "../../utils/ApiResponse";
 
 interface AuthProviderProps{
     children: ReactNode
@@ -19,8 +19,7 @@ export function AuthProvider( {children}:AuthProviderProps ){
     const userString = localStorage.getItem('user');
     const [user, setUser] = useState<UserReturnType | null>(userString ? JSON.parse(userString) : null);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(token && userString ? true : false);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);    
 
     useEffect(() => {
         const handleStorageChange = () => {
@@ -56,28 +55,23 @@ export function AuthProvider( {children}:AuthProviderProps ){
     };
 
 
-    const login = async (email: string, password: string) => {
-        setLoading(true);
-        setError(null);
+    const login = async (inputData:LoginInputType) => {
+        setIsLoading(true);
         try{
-            const response: AxiosResponse<LocalDataUser> = await axiosInstance.post('/login', {
-                    email,
-                    password
-                });
+            const response: AxiosResponse<LocalDataUser> = await axiosInstance.post('/login', inputData);
 
+            ApiResponse.success("Login Efetuado com Sucesso!");
             setIsAuthenticated(true);
             saveLocalStorage(response.data);
             window.dispatchEvent(new Event('localStorageUpdate'));
         }catch(err){
-            const axiosError = err as AxiosError<ErrorResponse>;
-            const returnErro = axiosError.response ? `Error: ${axiosError.response.data?.error}` : `Error fetching data: ${err}`;
-            setError(returnErro);
+            ApiResponse.error(err);
         }finally{
-            setLoading(false);
+            setIsLoading(false);
         }
 
     }
-
+    
     const logout = () => { 
         setIsAuthenticated(false);
         removeLocalStorage();
@@ -112,8 +106,7 @@ export function AuthProvider( {children}:AuthProviderProps ){
                 token,
                 login,
                 logout,
-                loading,
-                error,
+                isLoading,
                 getLoginDuration
             }}
         >
