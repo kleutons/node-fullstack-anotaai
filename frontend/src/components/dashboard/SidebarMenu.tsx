@@ -70,10 +70,10 @@ export default function SidebarMenu({ sidebarOpen, toggleSidebar }: SidebarMenuP
   return (
     <>
       {/* fundo transparente */}
-      <div data-show={`${sidebarOpen ? 'open' : 'close'}`} className="data-[show=close]:hidden data-[show=open]:fixed lg:hidden z-50 top-0 bottom-0 right-0 left-0 bg-[#0f172a62] backdrop-blur-md duration-500 transition-all cursor-close opacity-1 pointer-events-auto" onClick={toggleSidebar}></div>
+      <div data-show={`${sidebarOpen ? 'open' : 'close'}`} className="opacity-0 fixed lg:hidden z-50 top-0 bottom-0 right-0 left-0 bg-[#0f172a62] backdrop-blur-md duration-500 transition-all cursor-close pointer-events-none data-[show=open]:opacity-100 data-[show=open]:pointer-events-auto" onClick={toggleSidebar}></div>
 
       {/* Menu lateral (sidebar) */}
-      <aside data-show={`${sidebarOpen ? 'open' : 'close'}`} className="hidden lg:block data-[show=close]:hidden lg:data-[show=close]:block z-50 data-[show=open]:block data-[show=open]:top-0 lg:data-[show=open]:top-auto fixed h-full bg-sidebar w-64 p-4 pt-8 bg-[#012751]">
+      <aside data-show={`${sidebarOpen ? 'open' : 'close'}`} className="z-50 fixed top-0 h-full w-64 p-4 pt-8 bg-[#012751] -left-full opacity-0 pointer-events-none data-[show=open]:opacity-100 data-[show=open]:left-0 data-[show=open]:pointer-events-auto lg:top-auto lg:left-0 lg:opacity-100 lg:pointer-events-auto transition-all duration-300 ">
         {/*Btn Close */}
         <button className='absolute top-0 right-0 p-4 text-white/50 lg:hidden' onClick={toggleSidebar}>
           <X />

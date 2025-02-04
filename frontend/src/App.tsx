@@ -10,6 +10,7 @@ import DevPage from "./app/DevPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TestPage from "./app/TestPage";
 import UserListPage from "./app/UserListPage";
+import CatalogPage from "./app/CatalogPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/dev"          element={<DevPage />} />
           <Route path="/test"         element={<TestPage />} />
         </Route>
+        <Route path="/catalog" element={<CatalogPage />} />
       </Routes>
     </BrowserRouter>
   );

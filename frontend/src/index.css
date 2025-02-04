@@ -9,3 +9,12 @@ body {
 input:focus-visible, textarea:focus-visible, div:focus-visible {
     outline: none;
 }
+
+/* Oculta a barra de rolagem */
+.custom-scrollbar::-webkit-scrollbar {
+    display: none; 
+}
+.custom-scrollbar {
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+}
