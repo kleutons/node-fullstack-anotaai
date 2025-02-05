@@ -3,7 +3,7 @@ import { HttpStatusCodes } from "../../errors/http-status-codes";
 import { CategoryCreateModel } from "../../models/category.model";
 import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
-import { UserService } from "../user.service";
+import { UserService } from "../user/user.service";
 
 export async function categoryValidate(data:Partial<CategoryCreateModel>){
     

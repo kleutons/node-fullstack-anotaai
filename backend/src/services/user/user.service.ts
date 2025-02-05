@@ -1,16 +1,19 @@
-import { HttpError } from "../errors/http-error";
-import { HttpStatusCodes } from "../errors/http-status-codes";
-import { UserCreateModel, UserModel } from "../models/user.model";
-import prismaRepository from "../repositories";
+import { HttpError } from "../../errors/http-error";
+import { HttpStatusCodes } from "../../errors/http-status-codes";
+import { UserCreateModel, UserModel } from "../../models/user.model";
+import prismaRepository from "../../repositories";
 import bcrypt from 'bcrypt';
+import { OwnerCacheService } from "./owner.cache.service";
 
 
 export class UserService{
 
     private repository;
+    private cache;
 
     constructor(){
         this.repository = prismaRepository.user;
+        this.cache = new OwnerCacheService();
     }
 
     async listAll(){
@@ -125,6 +128,8 @@ export class UserService{
             }
         })
 
+        //UPDATE CACHE
+        setImmediate(() => this.cache.addOrUpdate(result));
         // Remover Senha do retorno 
         const returnUser = {...result, password: undefined};
         return returnUser;
@@ -149,8 +154,6 @@ export class UserService{
             dataToUpdate.password = await this.validateAndEncryptPassword(user.password);
         }
         
-        console.log(dataToUpdate);
-
         const result = await this.repository.update({
             where:{
                 id
@@ -159,6 +162,8 @@ export class UserService{
             
         })
 
+        //UPDATE CACHE
+        setImmediate(() => this.cache.addOrUpdate(result));
         // Remover Senha do retorno 
         const returnUser = {...result, password: undefined};
         return returnUser;
@@ -175,6 +180,8 @@ export class UserService{
             }
         })
 
+        //UPDATE CACHE
+        setImmediate(() => this.cache.delete(id));
         return { message: "Successfully Deleted!"}
     }
 }

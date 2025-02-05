@@ -1,4 +1,11 @@
+export interface OwnerModel{
+    id            :string
+    storeId       :string,
+    imgUrl?       :string
+}
+
 export interface CatalogProducts {
+    id: string;
     title: string;
     description: string;
     price: number;
@@ -12,6 +19,7 @@ export interface CatalogCategories {
 }
 
 export interface Catalog {
-    owner: string;
+    owner: OwnerModel;
     catalog: CatalogCategories[];
 }
+

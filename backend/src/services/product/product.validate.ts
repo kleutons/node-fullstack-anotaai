@@ -3,7 +3,7 @@ import { HttpStatusCodes } from "../../errors/http-status-codes";
 import { ProductCreateModel } from "../../models/product.model";
 import isValidId from "../../utils/valid.id";
 import { CategoryrService } from "../category/category.service";
-import { UserService } from "../user.service";
+import { UserService } from "../user/user.service";
 
 export async function productValidate(data:Partial<ProductCreateModel>, isUpdate:boolean = false){
     const requiredFields: Array<keyof ProductCreateModel> = !isUpdate ? ["title", "ownerId", "categoryId", "price", "description"] : ["ownerId"];

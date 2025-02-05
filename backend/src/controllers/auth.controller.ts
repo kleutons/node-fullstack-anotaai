@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { UserService } from "../services/user.service";
+import { UserService } from "../services/user/user.service";
 import { HttpStatusCodes } from "../errors/http-status-codes";
 import { HttpError } from "../errors/http-error";
 import { UserRole } from "@prisma/client";
