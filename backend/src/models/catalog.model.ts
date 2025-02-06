@@ -1,5 +1,6 @@
 export interface OwnerModel{
     id            :string
+    name          :string,
     storeId       :string,
     imgUrl?       :string
 }

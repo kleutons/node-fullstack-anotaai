@@ -32,10 +32,10 @@ export class OwnerCacheService {
     
     if (index === -1) {
       // Adiciona o item
-      currentData.push({id: newData.id, storeId: newData.storeId, imgUrl: newData.imgUrl || undefined});
+      currentData.push({id: newData.id, name: newData.name, storeId: newData.storeId, imgUrl: newData.imgUrl || undefined});
     } else {
       // Atualiza o item existente
-      const addNew = {id: newData.id, storeId: newData.storeId, imgUrl: newData.imgUrl || undefined};
+      const addNew = {id: newData.id, name: newData.name, storeId: newData.storeId, imgUrl: newData.imgUrl || undefined};
       currentData[index] = { ...currentData[index], ...addNew };
     }
 
