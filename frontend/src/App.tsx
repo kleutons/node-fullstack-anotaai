@@ -27,7 +27,7 @@ function App() {
           <Route path="/dev"          element={<DevPage />} />
           <Route path="/test"         element={<TestPage />} />
         </Route>
-        <Route path="/catalog" element={<CatalogPage />} />
+        <Route path="/catalog/:ownerIdOrStoreId" element={<CatalogPage />} />
       </Routes>
     </BrowserRouter>
   );

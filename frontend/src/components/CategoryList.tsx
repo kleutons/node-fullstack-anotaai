@@ -17,7 +17,7 @@ export default function CategoryList({isLoading = false, data, editAction, delet
         return <div className="flex gap-2 justify-center items-center"> <Spinner theme="dark" /> Carregando...</div>;
 
     if(data == undefined || data.length == 0 )
-        return <p>Nehuma Categoria Encontrada.</p>;
+        return <p>Nenhuma Categoria Encontrada.</p>;
     
     return (
     <>

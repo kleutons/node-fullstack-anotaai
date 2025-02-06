@@ -5,7 +5,7 @@ import ButtonPrimay from "../components/dashboard/ButtonPrimay";
 
 export default function NotFoundPage(){
     return (
-        <div className="w-full h-svh flex flex-col gap-4 justify-center items-center ">
+        <div className="w-full h-svh flex flex-col gap-4 p-4 justify-center items-center ">
             <div className="max-w-2xl flex flex-col gap-4 justify-center text-center">
                 <p className="text-blue-500 text-5xl font-bold">404</p>
         

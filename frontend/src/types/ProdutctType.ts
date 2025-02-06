@@ -9,3 +9,15 @@ export interface ProductInputType{
 export interface ProductFullType extends ProductInputType{
     id: string
 }
+
+export interface ProductCatalogType{
+    id: string,
+    title: string,
+    description: string,
+    price: number,
+    imgUrl?: string
+}
+
+export interface ProductCartType extends ProductCatalogType{
+    quantity: number
+}
