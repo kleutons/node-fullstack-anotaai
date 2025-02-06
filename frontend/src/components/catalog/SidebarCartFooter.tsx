@@ -1,3 +1,4 @@
+import { NavLink } from "react-router";
 import { FormatPriceToBRL } from "../../utils/FormatPriceToBRL";
 import ButtonPrimay from "../dashboard/ButtonPrimay";
 
@@ -13,9 +14,11 @@ export default function SidebarCartFooter({subtotal}:SidebarCartFooter){
                 <div className="">Subtotal:</div>
                 <div className="">{FormatPriceToBRL(subtotal)}</div>
             </div>
-            <ButtonPrimay disabled={subtotal? false : true} >
-                Finalizar Pedido
-            </ButtonPrimay>
+            <NavLink to='/catalog/finished'>
+                <ButtonPrimay disabled={subtotal? false : true} >
+                    Finalizar Pedido
+                </ButtonPrimay>
+            </NavLink>
         </div>
     )
 }

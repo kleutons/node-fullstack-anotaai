@@ -1,5 +1,6 @@
 import { Archive, Code, Home, Inbox, Tag, UsersRound, X, UserRoundCheck, CircleOff } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 interface SidebarMenuProps {
   sidebarOpen: boolean;
@@ -65,6 +66,8 @@ const menuList = [
 ];
 
 export default function SidebarMenu({ sidebarOpen, toggleSidebar }: SidebarMenuProps) {
+  const {user} = useAuth();
+  
   const location = useLocation();
 
   return (
@@ -86,7 +89,7 @@ export default function SidebarMenu({ sidebarOpen, toggleSidebar }: SidebarMenuP
                 {group.items.map((item, idx) => (
                   <li key={idx} className="mb-2">
                     <Link
-                      to={item.url}
+                      to={!item.title.includes('Catálogo Onlin') ? item.url : user ? item.url + `/${user.storeId}` : item.url + '/pizzaria'}
                       className={`flex items-center space-x-2 rounded-md p-2 transition-all duration-300 ${location.pathname === item.url ? 'bg-blue-500 text-white' : 'hover:bg-blue-500 hover:text-white'}`}
                       onClick={toggleSidebar}
                     >

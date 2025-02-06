@@ -12,6 +12,7 @@ export default function HomePage() {
     const {user} = useAuth();
     const total = useTotal();
 
+    const linkCatalog = user ? `/catalog/${user.storeId}` : '/catalog/pizzaria';
 
     const [currentDate, setCurrentDate] = useState({
         day: '',
@@ -78,10 +79,11 @@ export default function HomePage() {
                     </CardHome>
                    
                 </div>
-                <Link to={"/catalog"} className='transition-transform transform hover:scale-105  lg:max-w-[85%]'>
+                <Link to={linkCatalog} className='transition-transform transform hover:scale-105  lg:max-w-[85%]'>
                     <CardHome type='primary'>
                         <div className='flex-1'>
                             <span>Acessar:</span>
+                            <p>{user?.name}</p>
                             <h3 className="text-4xl font-bold">Catálogo Online</h3>
                         </div>
                         <div className="flex flex-col items-end">
@@ -92,7 +94,7 @@ export default function HomePage() {
 
 
                 <div className="flex flex-col md:flex-row gap-4 max-w-full lg:max-w-[50%] ">
-                    <ButtonPrimay link='/category' >Adicionar Categoria</ButtonPrimay>
+                    <ButtonPrimay link='/category'>Adicionar Categoria</ButtonPrimay>
                     <ButtonPrimay link='/product'>Adicionar Produto</ButtonPrimay>
                 </div>
             </section>
