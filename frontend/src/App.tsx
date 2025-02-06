@@ -10,7 +10,8 @@ import DevPage from "./app/DevPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TestPage from "./app/TestPage";
 import UserListPage from "./app/UserListPage";
-import CatalogPage from "./app/CatalogPage";
+import CatalogPage from "./app/catalog/CatalogPage";
+import OrderFinishedPage from "./app/catalog/OrderFinishedPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/test"         element={<TestPage />} />
         </Route>
         <Route path="/catalog/:ownerIdOrStoreId" element={<CatalogPage />} />
+        <Route path="/catalog/finished" element={<OrderFinishedPage />} />
       </Routes>
     </BrowserRouter>
   );
