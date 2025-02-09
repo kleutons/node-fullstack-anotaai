@@ -1,21 +1,19 @@
+import { CategoryCache } from "../../data/category.cache";
 import { HttpError } from "../../errors/http-error";
 import { HttpStatusCodes } from "../../errors/http-status-codes";
 import { CategoryCreateModel, CategoryModel } from "../../models/category.model";
 import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
-import { CategoryCacheService } from "./category.cache.service";
 import { categoryValidate, productsInCategoryId } from "./category.validate";
 
 
-export class CategoryrService{
-
-    
+export class CategoryService{
     private repository;
     private cache;
 
     constructor(){
         this.repository = prismaRepository.category;
-        this.cache = new CategoryCacheService();
+        this.cache  = CategoryCache.getInstance();
     }
 
     async listAll(){
@@ -23,21 +21,27 @@ export class CategoryrService{
         return result;
     }
 
-    async listByOwnerId(ownerId:string){
-            if(!isValidId(ownerId)){
-                throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid ID!");
-            }
+    async listByOwnerId(ownerId:string, orderAsc?:boolean ):Promise<CategoryModel[]>{
+
+        if(!isValidId(ownerId)){
+            throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid ID!");
+        }
+
+        try{
             const result = await this.repository.findMany({
                 where:{
                     ownerId
                 },
                 orderBy:{
-                    id: 'desc'
+                    id: orderAsc? 'asc' : 'desc'
                 }
             });
             return result;
+        }catch(err){
+            console.log(err);
+            return [];
+        }
     }
-
 
     private async findById(id:string):Promise<CategoryModel | null>{
         const result = await this.repository.findFirst({

@@ -19,7 +19,7 @@ export class UserController{
             res.status(500).json({error:'Failed to list' }) 
         }
     }
-
+    
     public async create(req:Request, res:Response){
         const user = req.body as UserCreateModel;
 

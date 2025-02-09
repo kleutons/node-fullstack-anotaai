@@ -10,7 +10,6 @@ routesProduct.get(ROUTERS.PRODUCT, authController.verifyToken, async (req:Reques
     new ProductController().listByOwnerId(req,res);
 });
 
-
 routesProduct.post(ROUTERS.PRODUCT, authController.verifyToken, async (req:Request, res:Response) => {
     new ProductController().create(req,res);
 });

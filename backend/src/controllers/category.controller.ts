@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
-import { CategoryrService } from "../services/category/category.service";
+
 import { HttpError } from "../errors/http-error";
 import { CategoryCreateModel } from "../models/category.model";
+import { UserService } from "../services/user/user.service";
+import { OwnerModel } from "../models/catalog.model";
+import { CategoryService } from "../services/category/category.service";
 
 export class CategoryController{
 
-    private service: CategoryrService;
+    private service: CategoryService;
+    private userService: UserService;
 
     constructor(){
-        this.service = new CategoryrService();
+        this.service = new CategoryService();
+        this.userService = new UserService();
     }
 
     public async listAll(req:Request, res:Response){

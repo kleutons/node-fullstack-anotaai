@@ -1,9 +1,12 @@
+import { OwnerCache } from "../../data/owner.cache";
 import { HttpError } from "../../errors/http-error";
 import { HttpStatusCodes } from "../../errors/http-status-codes";
-import { UserCreateModel, UserModel } from "../../models/user.model";
+import { OwnerModel } from "../../models/catalog.model";
+import { UserCreateModel, UserDataReturn, UserModel } from "../../models/user.model";
 import prismaRepository from "../../repositories";
 import bcrypt from 'bcrypt';
-import { OwnerCacheService } from "./owner.cache.service";
+import isValidId from "../../utils/valid.id";
+
 
 
 export class UserService{
@@ -13,13 +16,21 @@ export class UserService{
 
     constructor(){
         this.repository = prismaRepository.user;
-        this.cache = new OwnerCacheService();
+        this.cache = OwnerCache.getInstance();
     }
 
-    async listAll(){
+    async listAll():Promise<UserDataReturn[]>{
         const users = await this.repository.findMany();
         // Remover Senha do retorno 
-        const returnUsers = users.map(item => ({...item, password: undefined}));
+        const returnUsers = users.map(item => ({
+            id: item.id,
+            name: item.name,
+            storeId: item.storeId,
+            email: item.email,
+            role: item.role,
+            status: item.status,
+            imgUrl: item.imgUrl || undefined,
+        }));
         return returnUsers;
     }
 
@@ -75,11 +86,19 @@ export class UserService{
         return result;
     }
 
-    private async findById(id:string):Promise<UserModel | null>{
+    /**
+     * Função para encontrar um usuário pelo email, excluindo um usuário com um ID específico.
+     *
+     * @param id - Identificador ou StoreId da Loja do usuário.
+     * @returns O usuário que possui o Identificador fornecido, ou null se não encontrado.
+     */
+    public async findById(id:string):Promise<UserModel | null>{
+        let whereClause: any = { id };
+        if( id.length !== 24 ) // Não é um ID, procura pelo storeId
+            whereClause = {storeId: id.toLowerCase()};
+
         const result = await this.repository.findFirst({
-            where:{
-                id
-            }
+            where:whereClause
         })
         return result;
     }
@@ -128,8 +147,15 @@ export class UserService{
             }
         })
 
+        const resultOwner: OwnerModel = {
+            id: result.id,
+            name: result.name,
+            storeId: result.storeId,
+            imgUrl: result.imgUrl || undefined
+        }
+
         //UPDATE CACHE
-        setImmediate(() => this.cache.addOrUpdate(result));
+        setImmediate(() => this.cache.addOrUpdate(resultOwner));
         // Remover Senha do retorno 
         const returnUser = {...result, password: undefined};
         return returnUser;
@@ -162,8 +188,15 @@ export class UserService{
             
         })
 
+        const resultOwner: OwnerModel = {
+            id: result.id,
+            name: result.name,
+            storeId: result.storeId,
+            imgUrl: result.imgUrl || undefined
+        }
+
         //UPDATE CACHE
-        setImmediate(() => this.cache.addOrUpdate(result));
+        setImmediate(() => this.cache.addOrUpdate(resultOwner));
         // Remover Senha do retorno 
         const returnUser = {...result, password: undefined};
         return returnUser;

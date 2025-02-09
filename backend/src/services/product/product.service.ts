@@ -1,9 +1,9 @@
+import { ProductCache } from "../../data/product.cache.";
 import { HttpError } from "../../errors/http-error";
 import { HttpStatusCodes } from "../../errors/http-status-codes";
 import { ProductCreateModel, ProductModel } from "../../models/product.model";
 import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
-import { ProductCacheService } from "./product.cache.service";
 import { productValidate } from "./product.validate";
 
 
@@ -14,7 +14,7 @@ export class ProductService{
 
     constructor(){
         this.repository = prismaRepository.product;
-        this.cache = new ProductCacheService();
+        this.cache   = ProductCache.getInstance();        
     }
 
     async listAll(){
@@ -22,15 +22,15 @@ export class ProductService{
         return result;
     }
 
-    async listByOwnerAndCategoryId(ownerId:string, categoryId?: string){
-        
-        if(!isValidId(ownerId)){
-            throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid ID!");
-        }
-        const whereClause: any = {
-            AND: [{ ownerId: ownerId }]
-        };
     
+    async listByOwnerAndCategoryId(ownerId:string, categoryId?: string, orderAsc?: boolean){
+        
+        const whereClause: any = {AND:[]};
+
+        if(isValidId(ownerId)){
+            whereClause.AND.push({ ownerId: ownerId });
+        }
+        
         if (categoryId) {
             if (!isValidId(categoryId)) {
                 throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid Category Id!");
@@ -38,13 +38,18 @@ export class ProductService{
             whereClause.AND.push({ categoryId: categoryId });
         }
 
-        const result = await this.repository.findMany({
-            where: whereClause,
-            orderBy:{
-                id: 'desc'
-            }
-        });
-        return result;
+        try{
+            const result = await this.repository.findMany({
+                where: whereClause,
+                orderBy:{
+                    id: orderAsc? 'asc' : 'desc'
+                }
+            });
+            return result;
+        }catch(err){
+            console.log(err);
+            return [];
+        }
     }
 
     private async findById(id:string):Promise<ProductModel | null>{

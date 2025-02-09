@@ -3,13 +3,17 @@ import { ProductService } from "../services/product/product.service";
 import { HttpError } from "../errors/http-error";
 import { ProductCreateModel } from "../models/product.model";
 import { PrismaClientValidationError } from "@prisma/client/runtime/library";
+import { UserService } from "../services/user/user.service";
+import { OwnerModel } from "../models/catalog.model";
 
 export class ProductController{
 
     private service: ProductService;
+    private userService: UserService; 
 
     constructor(){
         this.service = new ProductService();
+        this.userService = new UserService();
     }
 
     public async listAll(req:Request, res:Response){
