@@ -9,7 +9,8 @@ export const useProductList = () => {
     const [products, setProducts]       = useState<ProductFullType[]>([]); 
     // Armazena a lista original da Base de dados   
     const [dbProducts, setDbProducts]   = useState<ProductFullType[]>([]); 
-    const [isLoading, setILoading]  = useState(false);
+    const [isLoading, setILoading]              = useState(false);
+    const [isLoadingCache, setIsLoadingCache]  = useState(false);
 
     // Chamar instância do serviço
     const productService = useProductService();
@@ -89,6 +90,12 @@ export const useProductList = () => {
         });
     }
 
+    const updateCache = async () => {
+        setIsLoadingCache(true);
+        await productService.updateCache();
+        setIsLoadingCache(false);
+    }
+
     return {
         data: {
             products,
@@ -98,7 +105,9 @@ export const useProductList = () => {
         actionList:{
             addOrUpdateItemList,
             deleteIdList,
-            isLoading
+            isLoading,
+            updateCache,
+            isLoadingCache
         }
     };
 };

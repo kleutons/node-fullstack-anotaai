@@ -7,7 +7,7 @@ export const useCategoryDelete = (deleteIdList: (id:string) => void) => {
     const categoryService = useCategoryService();
 
     const actionDelete = async (idItem: string) => {
-        if(confirm("Tem certeza de que deseja excluir esta categoria?")){
+        if(confirm("Tem certeza que deseja excluir a categoria?")){
             const response = await categoryService.deleteCategory(idItem);
             if(response)
                 deleteIdList(idItem);

@@ -10,7 +10,7 @@ import useTotal from '../hooks/useTotal';
 export default function HomePage() {
 
     const {user} = useAuth();
-    const total = useTotal();
+    const total = useTotal(user?.storeId);
 
     const linkCatalog = user ? `/catalog/${user.storeId}` : '/catalog/pizzaria';
 
@@ -83,7 +83,6 @@ export default function HomePage() {
                     <CardHome type='primary'>
                         <div className='flex-1'>
                             <span>Acessar:</span>
-                            <p>{user?.name}</p>
                             <h3 className="text-4xl font-bold">Catálogo Online</h3>
                         </div>
                         <div className="flex flex-col items-end">

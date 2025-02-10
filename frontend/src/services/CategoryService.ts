@@ -51,11 +51,20 @@ class CategoryService {
     public async deleteCategory(id: string): Promise<boolean> {
         try{
             await this.api.delete(`${this.categoryUrl}/${id}`);
-            ApiResponse.success('Categoria Excluida com Sucesso!');
+            ApiResponse.success('Categoria Excluída com Sucesso!');
             return true;
         }catch(err){
             ApiResponse.error(err);
             return false;
+        }
+    }
+
+    public async updateCache(){
+        try{
+            await this.api.get(`${this.categoryUrl}/update-cache`);
+            ApiResponse.success('Cache Atualizado com Sucesso!');
+        }catch(err){
+            ApiResponse.error(err);
         }
     }
 }

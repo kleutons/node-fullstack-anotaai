@@ -9,6 +9,7 @@ export const useCategoryList = () => {
     // Armazena a lista original da Base de dados   
     const [dbCategories, setDbCategories]   = useState<CategoryFullType[]>([]); 
     const [isLoading, setILoading]  = useState(false);
+    const [isLoadingCache, setIsLoadingCache] = useState(false);
     
     // Chamae instância do serviço
     const categoryService = useCategoryService();
@@ -76,6 +77,12 @@ export const useCategoryList = () => {
         });
     }
 
+    const updateCache = async () => {
+        setIsLoadingCache(true);
+        await categoryService.updateCache();
+        setIsLoadingCache(false);
+    }
+
     return {
         data: {
             categories,
@@ -84,7 +91,9 @@ export const useCategoryList = () => {
         actionList:{
             addOrUpdateItemList,
             deleteIdList,
-            isLoading
+            isLoading,
+            updateCache,
+            isLoadingCache
         }
     };
 };

@@ -4,8 +4,8 @@ import isProductFullType from "../../utils/isProductFullType";
 import { useProductService } from "./useProductService ";
 
 
-// Hook para editar categorias
-export const useProductForm = (addOrUpdateItemList: (category: ProductFullType, index?:number) => void) => {
+// Hook para editar Produtos
+export const useProductForm = (addOrUpdateItemList: (product: ProductFullType, index?:number) => void) => {
     const emptyData:ProductInputType = {title: '', categoryId: '', description: ''};
 
     const [dataForm, setDataForm]   = useState<ProductInputType | ProductFullType>(emptyData);
@@ -15,7 +15,7 @@ export const useProductForm = (addOrUpdateItemList: (category: ProductFullType, 
     // Chamar instância do serviço
     const productService = useProductService();
 
-    // Função para iniciar a edição de uma categoria específica
+    // Função para iniciar a edição 
     const editItem = (item: ProductFullType) => {
         setDataForm(item);
         setShowModal(true);
@@ -45,7 +45,7 @@ export const useProductForm = (addOrUpdateItemList: (category: ProductFullType, 
         });
     };
 
-    // Função para Eviar as alterações da categoria
+    // Função para Eviar as alterações
     const submitItem = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 

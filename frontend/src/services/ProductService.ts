@@ -30,7 +30,7 @@ class ProductService {
     public async create(data: ProductInputType): Promise<ProductFullType | undefined> {        
         try{
             const response = await this.api.post(this.categoryUrl, data);
-            ApiResponse.success('Categoria Criada com Sucesso!');
+            ApiResponse.success('Produto Criado com Sucesso!');
             return response.data;
         }catch(err){
             ApiResponse.error(err);
@@ -41,7 +41,7 @@ class ProductService {
         const { id, ...formData } = data;
         try{
             const response = await this.api.put(`${this.categoryUrl}/${id}`, formData);
-            ApiResponse.success('Categoria Atualizada com Sucesso!');
+            ApiResponse.success('Produto Atualizado com Sucesso!');
             return response.data;
         }catch(err){
             ApiResponse.error(err);
@@ -51,11 +51,20 @@ class ProductService {
     public async delete(id: string): Promise<boolean> {
         try{
             await this.api.delete(`${this.categoryUrl}/${id}`);
-            ApiResponse.success('Categoria Excluida com Sucesso!');
+            ApiResponse.success('Produto Excluído com Sucesso!');
             return true;
         }catch(err){
             ApiResponse.error(err);
             return false;
+        }
+    }
+
+    public async updateCache(){
+        try{
+            await this.api.get(`${this.categoryUrl}/update-cache`);
+            ApiResponse.success('Cache Atualizado com Sucesso!');
+        }catch(err){
+            ApiResponse.error(err);
         }
     }
 }

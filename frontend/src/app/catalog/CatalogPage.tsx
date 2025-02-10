@@ -39,7 +39,12 @@ export default function CatalogPage(){
         return <div className="flex gap-2 justify-center items-center"> <Spinner theme="dark" /> Carregando...</div>;
 
     if(data.dataOwner === null)
-        return <NotFoundPage /> 
+        return (
+        <>
+            <Toaster />
+            <NotFoundPage title="Catálogo Não Encontrado!" /> 
+        </>
+        )
 
     return(
         <>  
@@ -48,24 +53,23 @@ export default function CatalogPage(){
         reverseOrder={false}
         />
         <SidebarCart title="Carrinho" sidebarOpen={sidebarOpen} toggleSidebar={toggleSidebar} >
-            
-                {dataCart.cartItems.length <= 0 ? 
-                    (
-                        <div className="flex-1 flex flex-col p-6 gap-3 justify-center items-center">
-                        
-                            <ShoppingCart size={33} />
-                            <p><b>Seu carrinho está vazio!</b></p>
-                            <p className="text-2xl">🍔🍕🍟 </p>
-                            <p>Aproveite nossas deliciosas opções e faça seu pedido!</p>
+            {dataCart.cartItems.length <= 0 ? 
+                (
+                    <div className="flex-1 flex flex-col p-6 gap-3 justify-center items-center">
+                    
+                        <ShoppingCart size={33} />
+                        <p><b>Seu carrinho está vazio!</b></p>
+                        <p className="text-2xl">🍔🍕🍟 </p>
+                        <p>Aproveite nossas deliciosas opções e faça seu pedido!</p>
 
-                        </div>
-                    ):( 
-                        <>
-                            <CartItemList data={dataCart.cartItems} updateQuantity={actionCart.updateCartItemQty} />
-                            <SidebarCartFooter subtotal={dataCart.subtotal} />
-                        </>
-                    )
-                }
+                    </div>
+                ):( 
+                    <>
+                        <CartItemList data={dataCart.cartItems} updateQuantity={actionCart.updateCartItemQty} />
+                        <SidebarCartFooter subtotal={dataCart.subtotal} />
+                    </>
+                )
+            }
         </SidebarCart>
 
             <div className="flex flex-col min-h-svh text-slate-500">
@@ -94,14 +98,12 @@ export default function CatalogPage(){
 
                     <HeaderMenu data={data.catalogCategory} selectedCategory={data.selectedCategory} selectCategory={actionList.selectCategory} />
                 </HeaderCatalog>
-                
 
                 <main className="flex-1 flex flex-col items-center">
                     <ContentLayout addClass="pt-6 px-4">
                         <CatalogProductList data={data.dataCatalog} actionAddCart={actionCart.addCart} />
                     </ContentLayout>
                 </main>
-
                 
                 <div className="hidden lg:flex flex-col items-center ">
                     <ContentLayout >

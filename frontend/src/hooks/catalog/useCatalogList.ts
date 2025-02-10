@@ -14,7 +14,7 @@ export const useCatalogList = () => {
     const [selectedCategory, setSelectedCategory] = useState<number>(0);
     const [isLoading, setILoading]  = useState(true);
     
-    //Armazenar Categorias
+    //Armazenar Catálogo
     useEffect(() => {
         if (dbCatalog) {
             const categories = dbCatalog.catalog.map(item => ({ title: item.category_title }));
@@ -27,7 +27,7 @@ export const useCatalogList = () => {
     // Chamae instância do serviço
     const catalogService = useCatalogService();
     
-    // Função para buscar categorias da API
+    // Função para buscar o Catálogo
     const getCatalog = async (ownerIdOrStoreId?:string) => {
         if(ownerIdOrStoreId){
             setILoading(true);

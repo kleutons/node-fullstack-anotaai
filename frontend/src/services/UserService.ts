@@ -31,7 +31,7 @@ class UserService {
     public async create(data: UserInputType): Promise<UserReturnType | undefined> {        
         try{
             const response = await this.api.post(this.categoryUrl, data);
-            ApiResponse.success('Categoria Criada com Sucesso!');
+            ApiResponse.success('Usuário Criado com Sucesso!');
             return response.data;
         }catch(err){
             ApiResponse.error(err);
@@ -42,7 +42,7 @@ class UserService {
         const { id, ...formData } = data;
         try{
             const response = await this.api.put(`${this.categoryUrl}/${id}`, formData);
-            ApiResponse.success('Categoria Atualizada com Sucesso!');
+            ApiResponse.success('Usuário Atualizado com Sucesso!');
             return response.data;
         }catch(err){
             ApiResponse.error(err);
@@ -52,7 +52,7 @@ class UserService {
     public async delete(id: string): Promise<boolean> {
         try{
             await this.api.delete(`${this.categoryUrl}/${id}`);
-            ApiResponse.success('Categoria Excluida com Sucesso!');
+            ApiResponse.success('Usuário Excluído com Sucesso!');
             return true;
         }catch(err){
             ApiResponse.error(err);
