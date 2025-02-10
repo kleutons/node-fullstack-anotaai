@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import { HttpError } from "../errors/http-error";
 import { CategoryCreateModel } from "../models/category.model";
 import { UserService } from "../services/user/user.service";
-import { OwnerModel } from "../models/catalog.model";
 import { CategoryService } from "../services/category/category.service";
 
 export class CategoryController{

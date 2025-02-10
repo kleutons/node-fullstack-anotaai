@@ -6,7 +6,6 @@ import prismaRepository from "../../repositories";
 import isValidId from "../../utils/valid.id";
 import { productValidate } from "./product.validate";
 
-
 export class ProductService{
 
     private repository;

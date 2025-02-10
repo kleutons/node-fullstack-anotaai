@@ -2,7 +2,8 @@ import { HttpError } from "../../errors/http-error";
 import { HttpStatusCodes } from "../../errors/http-status-codes";
 import { ProductCreateModel } from "../../models/product.model";
 import isValidId from "../../utils/valid.id";
-import { CategoryrService } from "../category/category.service";
+import { CategoryService } from "../category/category.service";
+
 import { UserService } from "../user/user.service";
 
 export async function productValidate(data:Partial<ProductCreateModel>, isUpdate:boolean = false){
@@ -31,7 +32,7 @@ export async function productValidate(data:Partial<ProductCreateModel>, isUpdate
         if(!isValidId(data.categoryId)){
             throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Invalid Category ID!");
         }else{
-            const checkUser = await new CategoryrService().isExists(data.categoryId, data.ownerId);
+            const checkUser = await new CategoryService().isExists(data.categoryId, data.ownerId);
             if(!checkUser){
                 throw new HttpError(HttpStatusCodes.ERRO_BAD_REQUEST, "Category ID Not Found!");
             } 

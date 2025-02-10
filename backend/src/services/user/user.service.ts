@@ -5,9 +5,6 @@ import { OwnerModel } from "../../models/catalog.model";
 import { UserCreateModel, UserDataReturn, UserModel } from "../../models/user.model";
 import prismaRepository from "../../repositories";
 import bcrypt from 'bcrypt';
-import isValidId from "../../utils/valid.id";
-
-
 
 export class UserService{
 
