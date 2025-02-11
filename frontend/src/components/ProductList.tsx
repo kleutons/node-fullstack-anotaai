@@ -1,3 +1,4 @@
+import { ImageOff } from "lucide-react";
 import { CategoryFullType } from "../types/CategoryType";
 import { ProductFullType } from "../types/ProdutctType";
 import ButtonsActionForList from "./dashboard/ButtonsActionForList";
@@ -27,7 +28,8 @@ export default function ProductList({isLoading = false, data, dataCategory, edit
 
     return (
     <>
-        <div className="grid grid-cols-4 py-3 px-2 border-b font-semibold uppercase text-sm">
+        <div className="grid grid-cols-5 py-3 px-2 border-b font-semibold uppercase text-sm">
+            <div></div>
             <div className="col-span-3 grid grid-cols-2">
                 <div>Produtos</div>
                 <div className="hidden md:block">Categoria</div>
@@ -36,10 +38,20 @@ export default function ProductList({isLoading = false, data, dataCategory, edit
         </div>
         {
             data.map((item) => ( 
-                <div className="grid grid-cols-4 py-3 px-2 items-center border-b hover:bg-slate-100 hover:text-black ">
+                <div className="grid grid-cols-5 py-3 px-2 items-center border-b hover:bg-slate-100 hover:text-black ">
+                    <div className="w-[45px] h-[45px] md:w-[70px] md:h-[70px] flex items-center justify-center">
+                        {item.imgUrl ? (
+                            <img src={item.imgUrl}  className="w-full h-full rounded-2xl object-cover object-cente"/>
+                        
+                        ) : (
+                            <div className="bg-slate-200 rounded-full p-8 text-sky-900">
+                                <ImageOff size={80} />
+                            </div>
+                        )}
+                    </div>
                     <div className="col-span-3 flex flex-col md:grid md:grid-cols-2">
                         <div>{item.title}</div>
-                        <div>{getCategoryName(item.categoryId)}</div>
+                        <div className="text-sm md:text-base" >{getCategoryName(item.categoryId)}</div>
                     </div>
                     <div className="flex flex-col justify-center items-center md:flex-row gap-2">
                         <ButtonsActionForList

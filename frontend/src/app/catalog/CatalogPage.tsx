@@ -36,7 +36,7 @@ export default function CatalogPage(){
     }, [ownerIdOrStoreId]);
 
      if (actionList.isLoading) 
-        return <div className="flex gap-2 justify-center items-center"> <Spinner theme="dark" /> Carregando...</div>;
+        return <div className="flex gap-2 justify-center items-center px-2 py-8"> <Spinner theme="dark" /> Carregando...</div>;
 
     if(data.dataOwner === null)
         return (
