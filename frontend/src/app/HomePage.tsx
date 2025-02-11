@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { User, Calendar, Tag, Package, Archive } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import TitlePage from '../components/dashboard/TitlePage';
 import ButtonPrimay from '../components/dashboard/ButtonPrimay';
 import CardHome from '../components/dashboard/CardHome';
@@ -28,6 +28,8 @@ export default function HomePage() {
             year: date.getFullYear().toString()
         });
     }, []);
+
+    const navigate = useNavigate();
 
     return (
         <>
@@ -93,8 +95,8 @@ export default function HomePage() {
 
 
                 <div className="flex flex-col md:flex-row gap-4 max-w-full lg:max-w-[50%] ">
-                    <ButtonPrimay link='/category'>Adicionar Categoria</ButtonPrimay>
-                    <ButtonPrimay link='/product'>Adicionar Produto</ButtonPrimay>
+                    <ButtonPrimay onClick={()=>navigate('/category')}>Adicionar Categoria</ButtonPrimay>
+                    <ButtonPrimay onClick={()=>navigate('/product')}>Adicionar Produto</ButtonPrimay>
                 </div>
             </section>
         </>

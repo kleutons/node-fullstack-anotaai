@@ -12,9 +12,6 @@ import Modal from "../components/Modal";
 import InputText from "../components/dashboard/InputText";
 import InputTextArea from "../components/dashboard/InputTextArea";
 import isCategoryFullType from "../utils/isCategoryFullType";
-import ButtonPrimay from "../components/dashboard/ButtonPrimay";
-import { DatabaseBackup } from "lucide-react";
-
 
 export default function CategoryPage(){
   
@@ -43,18 +40,11 @@ export default function CategoryPage(){
           
       <HeaderList>
           <FilterSearch onSearch={data.searchCategory} />
-          <div className="flex gap-2 items-center">
+          
             <ButtonAddListItem 
                 text="Nova Categoria" 
                 actionBtn={modal.toggleModal} />
-            <div>
-              <ButtonPrimay 
-                onClick={actionList.updateCache}
-                disabled={actionList.isLoadingCache}>
-                <DatabaseBackup />
-              </ButtonPrimay>
-            </div>
-          </div>
+     
       </HeaderList>
       
       <section className="mt-6 gap-4 flex flex-col">

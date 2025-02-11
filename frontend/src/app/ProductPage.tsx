@@ -15,9 +15,8 @@ import { useProductForm } from "../hooks/product/useProductForm";
 import isProductFullType from "../utils/isProductFullType";
 import { useProductDelete } from "../hooks/product/useProductDelete";
 import { useCategoryList } from "../hooks/category/useCategoryList";
-import { DatabaseBackup, ImagePlus } from "lucide-react";
+import { ImagePlus } from "lucide-react";
 import FilterSelectData from "../types/SelectData";
-import ButtonPrimay from "../components/dashboard/ButtonPrimay";
 
 
 export default function ProductPage() {
@@ -76,18 +75,9 @@ export default function ProductPage() {
             <HeaderList>
                 <FilterSearch onSearch={data.searchProduct} />
                 <FilterSelect label="Categoria" options={CategoryData} onFilter={data.filterByCategory}  /> 
-                <div className="flex gap-2 items-center">
                     <ButtonAddListItem 
                         text="Novo Produto" 
                         actionBtn={modal.toggleModal} />
-                    <div>
-                        <ButtonPrimay 
-                            onClick={actionList.updateCache} 
-                            disabled={actionList.isLoadingCache} >
-                            <DatabaseBackup />
-                        </ButtonPrimay>
-                    </div>
-                </div>
             </HeaderList>
 
             <CardSection title="Lista de Produtos">
