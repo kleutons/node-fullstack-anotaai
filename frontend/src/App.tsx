@@ -3,6 +3,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import HomePage from "./app/HomePage";
 import LoginPage from "./app/LoginPage";
 import NotFoundPage from "./app/NotFoundPage";
+import ForbiddenPage from "./app/ForbiddenPage";
 import ProfilePage from "./app/ProfilePage";
 import CategoryPage from "./app/CategoryPage";
 import ProductPage from "./app/ProductPage";
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/forbidden" element={<ForbiddenPage />} />
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/profile"         element={<ProtectedRoute element={<ProfilePage />} />} />

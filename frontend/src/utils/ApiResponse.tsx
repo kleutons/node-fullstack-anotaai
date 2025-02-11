@@ -36,6 +36,12 @@ class ApiResponse{
             }, 2000);
         }
 
+        if (errorMessage.includes('Forbidden')) {
+            setTimeout(() => {
+                window.location.href = "/forbidden";
+            }, 500);
+        }
+
         toast.error(errorMessage)
     }
 

@@ -15,7 +15,7 @@ export const useUserList = () => {
     const userService = useUserService();
     
     // Função para buscar usuários da API
-    const getProducts = useCallback(async () => {
+    const getUsers = useCallback(async () => {
         setILoading(true);
             const data = await userService.get();
             setUsers(data);
@@ -25,8 +25,8 @@ export const useUserList = () => {
 
 
     useEffect(() => {
-        getProducts();
-    }, [getProducts]);
+        getUsers();
+    }, [getUsers]);
 
     //Função para Buscar um usuário
     const searchUsers = (findText: string) => {
