@@ -22,7 +22,7 @@ export default function CatalogProductList({ data, isLoading, actionAddCart }: C
                     product.itens.length > 0 ? (
                         <div key={`product-${index}`} id={`category-${index}`} className="pb-8">
                             <h4 className="text-blue-500 font-bold pb-3">{product.category_title}</h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {
                                     product.itens.map((item, key) => (
                                         <div key={`products-${key}`} className="p-2 border rounded-xl flex justify-between gap-2 h-full transform hover:scale-105 transition-all duration-300 cursor-pointer hover:shadow-lg"

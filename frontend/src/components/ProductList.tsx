@@ -37,15 +37,15 @@ export default function ProductList({isLoading = false, data, dataCategory, edit
             <div className="text-center">Ações</div>
         </div>
         {
-            data.map((item) => ( 
-                <div className="grid grid-cols-5 py-3 px-2 items-center border-b hover:bg-slate-100 hover:text-black ">
+            data.map((item, index) => ( 
+                <div key={`product-${index}`} className="grid grid-cols-5 py-3 px-2 items-center border-b hover:bg-slate-100 hover:text-black ">
                     <div className="w-[45px] h-[45px] md:w-[70px] md:h-[70px] flex items-center justify-center">
                         {item.imgUrl ? (
                             <img src={item.imgUrl}  className="w-full h-full rounded-2xl object-cover object-cente"/>
                         
                         ) : (
-                            <div className="bg-slate-200 rounded-full p-8 text-sky-900">
-                                <ImageOff size={80} />
+                            <div className="bg-slate-200 rounded-full p-2 md:p-3 text-sky-900">
+                                <ImageOff size={28} />
                             </div>
                         )}
                     </div>

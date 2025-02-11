@@ -15,7 +15,7 @@ export default function UserList({isLoading = false, data, editAction, deleteAct
             return <div className="flex gap-2 justify-center items-center"> <Spinner theme="dark" /> Carregando...</div>;
     
     if(data == undefined || data.length == 0 )
-        return <p>Nehum Produto Encontrado.</p>;
+        return <p>Nehum Usuário Encontrado.</p>;
 
 
     return (
