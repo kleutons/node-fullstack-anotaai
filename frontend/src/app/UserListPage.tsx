@@ -16,13 +16,14 @@ import { UserRound } from "lucide-react";
 import SwitchToggle from "../components/dashboard/SwitchToggle";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
+import ModalConfirm from "../components/ModalConfirm";
 
 
 export default function UserListPage() {
 
     const { data, actionList }      = useUserList();
     const { modal, item, action }   = useUserForm(actionList.addOrUpdateItemList);
-    const { actionDelete }          = useUserDelete(actionList.deleteIdList);
+    const { modalDelete, actionDelete }  = useUserDelete(actionList.deleteIdList);
     const titleModal = !isUserFullType(item.dataForm)  ? "Cadastrar Usuário" : "Editar Usuário";
     const RoleData = [
         {id: 'ADMIN', text: 'ADMIN'},
@@ -39,6 +40,13 @@ export default function UserListPage() {
     return (
         <>  
             <div><Toaster /></div>
+            <ModalConfirm
+                isShow={modalDelete.showModal}
+                isLoading={modalDelete.isLoading}
+                toggleModal={modalDelete.toggleModal}
+                submitAction={actionDelete.deleteItem}
+                />
+
             <TitlePage text="Usuário" />
             
             <HeaderList>
@@ -56,6 +64,9 @@ export default function UserListPage() {
                 toggleModal={modal.toggleModal}
                 submitAction={action.submitItem}
             >
+            
+          
+            
                 <div className="flex flex-col md:flex-row gap-8 w-full mb-6">
                     <div className="flex-1">
                         <InputText       label="Nome do Usuário" name='name'   value={item.dataForm.name || ''}        onChange={item.setInputValue} required  />
@@ -70,11 +81,32 @@ export default function UserListPage() {
                                 required
                             />
                         )}
-                        <InputText       label="Email"           name='email'   value={item.dataForm.email || ''}       onChange={item.setInputValue} required  />
-                        <SwitchToggle    label="Alterar Senha?" onToggle={handleTogglePassword} />
-                        {showPassword && (
-                            <InputText       label="Senha"           name='password' value={item.dataForm.password || ''}   onChange={item.setInputValue}   />
+                        <InputText  type="email"     label="Email"           name='email'   value={item.dataForm.email || ''}       onChange={item.setInputValue} required  />
+                        {!isUserFullType(item.dataForm) ? (
+                            <InputText
+                                label="Senha"
+                                name="password"
+                                value={item.dataForm.password || ""}
+                                onChange={item.setInputValue}
+                                required
+                            />
+                            ) : (
+                            <>
+                                <SwitchToggle
+                                label="Alterar Senha?"
+                                onToggle={handleTogglePassword}
+                                />
+                                {showPassword && (
+                                <InputText
+                                    label="Senha"
+                                    name="password"
+                                    value={item.dataForm.password || ""}
+                                    onChange={item.setInputValue}
+                                />
+                                )}
+                            </>
                         )}
+
                     </div>
                     <div className="w-full md:w-2/5 flex flex-col justify-center items-center gap-6">
                         {item.dataForm?.imgUrl ? (
@@ -97,7 +129,7 @@ export default function UserListPage() {
                     data={data.users}
                     isLoading={actionList.isLoading} 
                     editAction={action.editItem} 
-                    deleteAction={actionDelete}
+                    deleteAction={actionDelete.openConfirm}
                 />
             </CardSection>
         </>
