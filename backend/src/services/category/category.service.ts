@@ -16,7 +16,7 @@ export class CategoryService{
         this.cache  = CategoryCache.getInstance();
     }
 
-    async listAll(){
+    async listAll():Promise<CategoryModel[]>{
         const result = await this.repository.findMany();
         return result;
     }
@@ -36,6 +36,8 @@ export class CategoryService{
                     id: orderAsc? 'asc' : 'desc'
                 }
             });
+            //UPDATE CACHE
+            setImmediate(() => this.updateCacheAllCategory());
             return result;
         }catch(err){
             console.log(err);
@@ -76,7 +78,7 @@ export class CategoryService{
         })
 
         //UPDATE CACHE
-        setImmediate(() => this.cache.addOrUpdate(result));
+        setImmediate(() => this.updateCacheAllCategory());
         return result;
     }
 
@@ -104,7 +106,7 @@ export class CategoryService{
         })
 
         //UPDATE CACHE
-        setImmediate(() => this.cache.addOrUpdate(result));
+        setImmediate(() => this.updateCacheAllCategory());
         return result;
     }
 
@@ -132,7 +134,15 @@ export class CategoryService{
         })
 
         //UPDATE CACHE
-        setImmediate(() => this.cache.delete(id));
+        setImmediate(() => this.updateCacheAllCategory());
         return { message: "Successfully Deleted!"}
+    }
+
+    private async updateCacheAllCategory(){
+        const listData = await this.listAll();
+        const data: CategoryModel[] = listData ? listData : [];
+        
+        //UPDATE CACHE
+        this.cache.updateAllCategory(data);
     }
 }

@@ -44,6 +44,9 @@ export class ProductService{
                     id: orderAsc? 'asc' : 'desc'
                 }
             });
+
+            //UPDATE CACHE
+            setImmediate(() => this.updateCacheAll());
             return result;
         }catch(err){
             console.log(err);
@@ -68,7 +71,7 @@ export class ProductService{
         })
 
         //UPDATE CACHE
-        setImmediate(() => this.cache.addOrUpdate(result));
+        setImmediate(() => this.updateCacheAll());
         return result;
     }
 
@@ -96,7 +99,7 @@ export class ProductService{
         })
 
         //UPDATE CACHE
-        setImmediate(() => this.cache.addOrUpdate(result));
+        setImmediate(() => this.updateCacheAll());
         return result;
     }
 
@@ -112,7 +115,15 @@ export class ProductService{
         })
 
         //UPDATE CACHE
-        setImmediate(() => this.cache.delete(id));
+        setImmediate(() => this.updateCacheAll());
         return { message: "Successfully Deleted!"}
+    }
+
+    private async updateCacheAll(){
+        const listData = await this.listAll();
+        const data: ProductModel[] = listData ? listData : [];
+        
+        //UPDATE CACHE
+        this.cache.updateAllProduct(data);
     }
 }

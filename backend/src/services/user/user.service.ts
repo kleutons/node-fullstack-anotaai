@@ -144,15 +144,8 @@ export class UserService{
             }
         })
 
-        const resultOwner: OwnerModel = {
-            id: result.id,
-            name: result.name,
-            storeId: result.storeId,
-            imgUrl: result.imgUrl || undefined
-        }
-
         //UPDATE CACHE
-        setImmediate(() => this.cache.addOrUpdate(resultOwner));
+        setImmediate(() => this.updateCacheAll());
         // Remover Senha do retorno 
         const returnUser = {...result, password: undefined};
         return returnUser;
@@ -185,15 +178,8 @@ export class UserService{
             
         })
 
-        const resultOwner: OwnerModel = {
-            id: result.id,
-            name: result.name,
-            storeId: result.storeId,
-            imgUrl: result.imgUrl || undefined
-        }
-
         //UPDATE CACHE
-        setImmediate(() => this.cache.addOrUpdate(resultOwner));
+        setImmediate(() => this.updateCacheAll());
         // Remover Senha do retorno 
         const returnUser = {...result, password: undefined};
         return returnUser;
@@ -211,7 +197,15 @@ export class UserService{
         })
 
         //UPDATE CACHE
-        setImmediate(() => this.cache.delete(id));
+        setImmediate(() => this.updateCacheAll());
         return { message: "Successfully Deleted!"}
+    }
+
+    private async updateCacheAll(){
+        const listData = await this.listAll();
+        const data: UserDataReturn[] = listData ? listData : [];
+        
+        //UPDATE CACHE
+        this.cache.updateFullCache(data);
     }
 }
