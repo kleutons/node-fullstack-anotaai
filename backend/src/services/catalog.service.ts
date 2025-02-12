@@ -70,7 +70,6 @@ export class CatalogService {
   private async findByCategory(ownerId: string):Promise<CategoryModel[]>{
      // Recupera todas as categorias do cache e filtra
     let dataCategory: CategoryModel[] = await this.categoryCache.getAll();
-    // let dataCategory: CategoryModel[] = await this.categoryCache.getAll();
     dataCategory = dataCategory.filter(item => item.ownerId === ownerId);
 
     if(dataCategory.length === 0){
@@ -85,6 +84,7 @@ export class CatalogService {
   private async findByProduct(ownerId: string):Promise<ProductModel[]>{
      // Recupera todos os produtos do cache
     let dataProducts: ProductModel[] = await this.productCache.getAll();
+    dataProducts = dataProducts.filter(item => item.ownerId === ownerId);
 
     if(dataProducts.length === 0){
       // Se não encontrar no cache, busca no banco de dados
