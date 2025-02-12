@@ -31,11 +31,12 @@ export default function CatalogPage(){
     useEffect(()=>{
         if(ownerIdOrStoreId){
             actionList.getCatalog(ownerIdOrStoreId);
+            actionCart.getCart(ownerIdOrStoreId);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ownerIdOrStoreId]);
 
-     if (actionList.isLoading) 
+    if (actionList.isLoading) 
         return <div className="flex gap-2 justify-center items-center px-2 py-8"> <Spinner theme="dark" /> Carregando...</div>;
 
     if(data.dataOwner === null)

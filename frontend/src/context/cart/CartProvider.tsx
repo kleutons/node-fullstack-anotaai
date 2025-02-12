@@ -8,23 +8,26 @@ interface CartProviderProps {
     children: ReactNode;
 }
 
-export function CartProvider({ children }: CartProviderProps) {
-    
-    // Armazena a lista do carrinho
-    const [cartItems, setCartItems] = useState<CatalogCartItemType[]>(() => {
-        // Obtém os itens do carrinho do localStorage ao inicializar o estado
-        const savedCartItems = localStorage.getItem("cartItems");
-        return savedCartItems ? JSON.parse(savedCartItems) : [];
-    });
-    
-    const [subtotal, setSubtotal] = useState<number>(() => {
-        // Calcula o subtotal inicial dos itens do carrinho ao inicializar o estado
-        const savedCartItems = localStorage.getItem("cartItems");
-        const items: CatalogCartItemType[] = savedCartItems ? JSON.parse(savedCartItems) : [];
-        return items.reduce((total, item) => total + (item.quantity * item.price), 0);
-    });
+export function CartProvider({ children }: CartProviderProps) { 
 
-    // Lógica para adicionar itens ao carrinho
+    // Armazena a lista do carrinho
+    const [ownerId, setOwnerId] = useState<string | undefined>(undefined);
+    const [cartItems, setCartItems] = useState<CatalogCartItemType[]>([]);
+    const [subtotal, setSubtotal] = useState<number>(0);
+
+
+    // Função para buscar o Catálogo
+    const getCart = async (ownerIdOrStoreId?:string) => {
+        if(ownerIdOrStoreId){
+            setOwnerId(ownerIdOrStoreId);
+            const localItems     = localStorage.getItem(`cartItems_${ownerIdOrStoreId}`);
+            const dataCartItems:CatalogCartItemType[]  = localItems ? JSON.parse(localItems) : [];
+            setCartItems(dataCartItems)
+        }
+    };
+
+
+    // Lógica para adicionar itens ao carrinho0,
     const addCart = (newItem: CatalogItemType) => {
         setCartItems(prevCartItem => {
             const itemIndex = prevCartItem.findIndex(item => item.id === newItem.id);
@@ -96,10 +99,12 @@ export function CartProvider({ children }: CartProviderProps) {
 
     // Atualizar subtotal quando o carrinho é modificado
     useEffect(() => {
-        // Salva os itens do carrinho no localStorage sempre que o estado mudar
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-        // Atualizar subtotal
-        updateSubTotal();
+        if(ownerId){
+            // Salva os itens do carrinho no localStorage sempre que o estado mudar
+            localStorage.setItem(`cartItems_${ownerId}`, JSON.stringify(cartItems));
+            // Atualizar subtotal
+            updateSubTotal();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cartItems]);
 
@@ -116,6 +121,7 @@ export function CartProvider({ children }: CartProviderProps) {
             subtotal
         },
         actionCart: {
+            getCart,
             addCart,
             updateCartItemQty,
             clearCart

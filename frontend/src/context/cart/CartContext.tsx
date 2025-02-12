@@ -7,6 +7,7 @@ export interface CartContextType {
         subtotal: number;
     },
     actionCart: {
+        getCart:  (ownerIdOrStoreId?:string) => void;
         addCart:  (newItem: CatalogItemType) => void;
         updateCartItemQty:  (id: string, currentQuantity: number, isIncrement?: boolean) => void;
         clearCart: () => void;
