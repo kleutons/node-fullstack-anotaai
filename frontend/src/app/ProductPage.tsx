@@ -17,6 +17,7 @@ import { useProductDelete } from "../hooks/product/useProductDelete";
 import { useCategoryList } from "../hooks/category/useCategoryList";
 import { ImagePlus } from "lucide-react";
 import FilterSelectData from "../types/SelectData";
+import ModalConfirm from "../components/ModalConfirm";
 
 
 export default function ProductPage() {
@@ -24,16 +25,15 @@ export default function ProductPage() {
     const { data:categoryData }     = useCategoryList();
     const { data, actionList }      = useProductList();
     const { modal, item, action }   = useProductForm(actionList.addOrUpdateItemList);
-    const { actionDelete }          = useProductDelete(actionList.deleteIdList);
+    const { modalDelete, actionDelete }  = useProductDelete(actionList.deleteIdList);
     
     const titleModal = !isProductFullType(item.dataForm)  ? "Cadastrar Produto" : "Editar Produto";
     
     const CategoryData:FilterSelectData[] = categoryData.categories.map((item) => ({id: item.id, text: item.title}));
 
     return (
-        <>
+        <>  
             <div><Toaster/></div>
-            <TitlePage text="Produtos" />
 
             <Modal 
                 title={titleModal}
@@ -72,6 +72,17 @@ export default function ProductPage() {
                 </div>
             </Modal>
 
+            <ModalConfirm
+                    isShow={modalDelete.showModal}
+                    isLoading={modalDelete.isLoading}
+                    toggleModal={modalDelete.toggleModal}
+                    submitAction={actionDelete.deleteItem}
+                   />
+
+    
+            <TitlePage text="Produtos" />
+
+
             <HeaderList>
                 <FilterSearch onSearch={data.searchProduct} />
                 <FilterSelect label="Categoria" options={CategoryData} onFilter={data.filterByCategory}  /> 
@@ -86,7 +97,7 @@ export default function ProductPage() {
                     dataCategory={categoryData.categories} 
                     isLoading={actionList.isLoading} 
                     editAction={action.editItem} 
-                    deleteAction={actionDelete} />
+                    deleteAction={actionDelete.openConfirm} />
             </CardSection>
 
         </>
