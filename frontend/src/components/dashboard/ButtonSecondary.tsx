@@ -10,7 +10,7 @@ export default function ButtonSecondary({children, ...props}:ButtonSecondaryProp
     
     return (    
         <button 
-            className="w-full py-2 px-4 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-transform transform hover:scale-105"
+            className="w-full py-2 px-4 border-2 border-slate-400 hover:border-slate-500 bg-white text-slate-600 hover:text-slate-700 rounded-lg transition-transform transform hover:scale-105"
             {...props}
         >
             {children}

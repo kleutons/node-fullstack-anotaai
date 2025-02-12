@@ -45,7 +45,7 @@ export default function LoginPage(){
 
                 <form className="flex flex-col gap-2 md:gap-3 w-full md:max-w-[500px]" onSubmit={handleSubmit}>
 
-                    <h1 className=" text-3xl md:text-4xl font-bold">Login Anota AI</h1>
+                    <h1 className=" text-3xl md:text-4xl font-bold">Login</h1>
                     <hr className="mb-5" />
 
                     <InputText label="Email" name="email" required />
@@ -59,18 +59,20 @@ export default function LoginPage(){
                 </form>
             
             </div>
-            <div className="bg-[#012751] bg-gradient-to-br from-blue-800 to-[#012751] h-full text-white flex px-4 pt-8 md:pl-20 justify-center md:justify-start items-center w-full">
+            <div className="bg-[#012751] bg-gradient-to-br from-blue-800 to-[#012751] h-full text-white flex px-4 pt-4 md:pl-20 justify-center md:justify-start items-center w-full">
                 <div className="flex flex-col gap-2 items-center md:items-start md:gap-4">
                     <div className="flex gap-6 mb-5 justify-center md:justify-start items-center">
-                        <img src="./logo_anotaai_white.png" className="max-h-16" />
-                        <img src="./logo_ifood_white.png" className="max-h-8" />
+                        <img src="./logo_anotaai_white.png" className="max-h-12 md:max-h-16" />
+                        <img src="./logo_ifood_white.png" className="max-h-6 md:max-h-8" />
                     </div>
                     
                     <h3 className="text-2xl md:text-3xl font-bold">
                         Projeto FullStack
                     </h3>
-                    <p className="text-sm md:text-base">🚀 Bem-vindo à nossa aplicação!</p>
-                    <p className="text-sm md:text-base text-center md:text-left max-w-96 ">Para acessar, entre em contato com o desenvolvedor: @Kleuton e solicite seus dados de login.</p>
+                    <div className="text-center md:text-left">
+                        <p className="text-sm md:text-base">🚀 Bem-vindo!</p>
+                        <p className="text-sm md:text-base max-w-96 ">Para acessar, entre em contato com o desenvolvedor: @Kleuton e solicite seus dados de login.</p>
+                    </div>
                     <ContactDev />
                 </div>
             </div>
