@@ -1,3 +1,4 @@
+import { ImageOff } from "lucide-react";
 import { CatalogItemType } from "../../types/CatalogyType";
 import { FormatPriceToBRL } from "../../utils/FormatPriceToBRL";
 
@@ -20,7 +21,14 @@ export default function CatalogProductItem({item}:CatalogProductItemProps){
                 </div>
             </div>
             <div className="min-w-24 max-w-24 h-24">
-                <img src={item.imgUrl} className="w-full h-full rounded-3xl object-cover object-cente" />
+                {item.imgUrl ? (
+                    <img src={item.imgUrl}  className="w-full h-full rounded-3xl object-cover object-center"/>
+                
+                ) : (
+                    <div className="bg-slate-100 w-full h-full rounded-3xl flex items-center justify-center  text-sky-900">
+                        <ImageOff size={28} />
+                    </div>
+                )}
             </div>
         </>
     )
