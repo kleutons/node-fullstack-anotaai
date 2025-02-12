@@ -44,3 +44,6 @@ build/
 
 #DataBae
 database/data
+
+.vercel
+vercel.json
