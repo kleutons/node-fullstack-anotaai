@@ -143,6 +143,6 @@ export class CategoryService{
         const data: CategoryModel[] = listData ? listData : [];
         
         //UPDATE CACHE
-        this.cache.updateAllCategory(data);
+        this.cache.updateFullCache(data);
     }
 }

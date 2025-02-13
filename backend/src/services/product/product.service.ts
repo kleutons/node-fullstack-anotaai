@@ -124,6 +124,6 @@ export class ProductService{
         const data: ProductModel[] = listData ? listData : [];
         
         //UPDATE CACHE
-        this.cache.updateAllProduct(data);
+        this.cache.updateFullCache(data);
     }
 }
