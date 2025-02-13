@@ -26,7 +26,7 @@ export class CategoryCache {
 
   async updateAllCategory(newDataList: CategoryModel[]): Promise<void> {
     // Combine o cache atual com as novas categorias
-    const combinedCategories = [...this.cache, ...newDataList];
+    const combinedCategories = [...newDataList, ...this.cache];
   
     // Remova duplicatas com base no ID da categoria
     const uniqueCategories = combinedCategories.filter((category, index, self) =>

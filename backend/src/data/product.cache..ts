@@ -26,7 +26,7 @@ export class ProductCache {
 
   async updateAllProduct(newDataList: ProductModel[]): Promise<void> {
     // Combine o cache atual com as novas
-    const combined = [...this.cache, ...newDataList];
+    const combined = [...newDataList, ...this.cache];
   
     // Remova duplicatas com base no ID 
     const unique = combined.filter((product, index, self) =>
