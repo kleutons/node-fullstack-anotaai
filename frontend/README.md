@@ -1,50 +1,49 @@
-# React + TypeScript + Vite
+# 🟢 Projeto Desafio FrontEnd ANOTAI
+<img src="../docs/anotaAi.png" alt="Logo" weight="85%">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📗 Descrição
+Bem-vindo ao projeto frontend para o AnotaAi! Este projeto foi desenvolvido com React e TypeScript, projetado para revolucionar a forma como você gerencia usuários, categorias e produtos. ✨
+<br/>
+A aplicação é completamente responsiva, com estilização impecável usando Tailwind CSS, navegação fluida com React Router DOM e integração com APIs através do Axios.
+<br/>
+### Recursos Principais:
+- **Catálogo de Produtos:** Produtos organizados por categorias para fácil navegação.
+- **Sistema de Busca:** Encontre produtos rapidamente com a busca integrada.
+- **Carrinho de Compras e Checkout:** Experiência de compra simplificada e eficiente.
+- **Autenticação e Login:** Rotas de acesso protegido ao sistema com JWT (JSON Web Token). 🚀
+<br/>
 
-Currently, two official plugins are available:
+Esse sistema é alimentado pelo poderoso CRUD (Create, Read, Update, Delete) do backend formanto um projeto totalmente Fullstack, garantindo que você tenha controle total sobre seus dados. 🔄
+<br/>
+Pronto para transformar sua experiência de gerenciamento? Vamos nessa!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+# 🛠️ Instalação
+Clone este repositório
+```
+    git clone https://github.com/kleutons/node-fullstack-anotaai
+```
+Navegue até a pasta frontend
+```
+    cd ./frontend
+```
+Instale as dependências
+```
+    npm install
+```
+Configure as variáveis de ambiente
+- Crie um arquivo .env na raiz do projeto backend
+- Adicione as variáveis de ambiente necessárias: (ex: VITE_API_URL definir a url da api do backend)
+  ```env
+    VITE_API_URL=http://localhost:3333/api
+  ```
+Inicie o servidor
+```
+    npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+# 👤 Author
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+| [<img src="https://avatars3.githubusercontent.com/u/106082564?s=96&v=4"><br><sub>Kleuton Novais</sub>](https://github.com/kleutons) |
+| :---------------------------------------------------------------------------------------------------------------------------------------: |
+|                                            [Linkedin](https://www.linkedin.com/in/kleuton-novais/)        

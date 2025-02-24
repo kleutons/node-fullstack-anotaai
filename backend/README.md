@@ -106,7 +106,7 @@ Inicie o servidor
 ## 🗂️ Categorias
 | Method | Path | Action |
 | ------ | ---- | ------ |
-| GET       | /api/category/:ownerId     | Lista todas as categorias de um usuário id |
+| GET       | /api/category/    | Lista todas as categorias de um usuário id pertence o token autenticado  |
 | POST      | /api/category     | Cria uma nova categoria |
 | PUT       | /api/category/:id | Atualiza uma categoria pelo ID |
 | DELETE    | /api/category/:id | Remove uma categoria pelo ID |
@@ -124,7 +124,7 @@ Inicie o servidor
 
 | Method | Path | Action |
 | ------ | ---- | ------ |
-| GET       | /api/product/:ownerId     | Lista todos os produtos de um usuário id |
+| GET       | /api/product/    | Lista todos os produtos de um usuário id que pertence o token autenticado  |
 | POST      | /api/product     | Cria um novo produto |
 | PUT       | /api/product/:id | Atualiza um produto pelo ID |
 | DELETE    | /api/product/:id | Remove um produto pelo ID |
@@ -145,7 +145,7 @@ Inicie o servidor
 
 | Method | Path | Action |
 | ------ | ---- | ------ |
-| GET       | /api/catalog/:ownerId     | Lista catálogo .json de um usuário id |
+| GET       | /api/catalog/:ownerIdorStoreId     | Lista catálogo .json de um usuário id |
 
 ### Exemplo Method Get Para Mostrar Catálogo em Cache:
 ```json
